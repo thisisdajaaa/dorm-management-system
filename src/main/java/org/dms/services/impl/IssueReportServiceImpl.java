@@ -16,8 +16,13 @@ public class IssueReportServiceImpl implements IIssueReportService {
 
     @Override
     public void acknowledgeIssueReport(int reportID){
-        IssueReport foundIssueReport = issueReport.findById(reportID).orElseThrow(IssueReportException.NotFoundException::new);
+        IssueReport foundIssueReport = findById(reportID);
         foundIssueReport.setReportStatus(ReportStatus.IN_PROGRESS);
         issueReport.save(foundIssueReport);
+    }
+
+    public IssueReport findById(int reportID)
+    {
+        return issueReport.findById(reportID).orElseThrow(IssueReportException.NotFoundException::new);
     }
 }
