@@ -6,7 +6,6 @@ import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 
-import java.time.LocalDate;
 
 public class App {
     public static void main(String[] args) {

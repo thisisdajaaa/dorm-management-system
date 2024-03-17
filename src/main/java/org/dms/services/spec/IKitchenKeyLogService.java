@@ -9,7 +9,11 @@ import java.util.Map;
 public interface IKitchenKeyLogService {
     void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId);
 
+    void markKitchenKeyLogAsComplete();
+
     KitchenKeyLog findById(Integer id);
+
+    KitchenKeyLog getOpenKeyLog();
 
     List<Map.Entry<Integer, KitchenKeyLog>> findAll();
 }
