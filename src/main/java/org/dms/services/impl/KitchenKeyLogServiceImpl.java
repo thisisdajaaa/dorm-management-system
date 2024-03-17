@@ -37,12 +37,15 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
         if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException();
 
-        key.setKeyStatus(KeyStatus.BORROWED);
+        keyService.setKeyStatus(key.getId(), KeyStatus.BORROWED);
 
         KitchenKeyLog kitchenKeyLog = new KitchenKeyLog(borrowedStartDate, key, person);
 
         kitchenKeyLogRepository.save(kitchenKeyLog);
     }
+
+    // TODO
+    // Add a function for ending the kitchen key log or marking it as finished
 
     @Override
     public KitchenKeyLog findById(Integer id) {
