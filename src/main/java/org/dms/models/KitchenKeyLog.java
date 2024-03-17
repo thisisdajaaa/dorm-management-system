@@ -1,7 +1,7 @@
 package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 import java.time.LocalDate;
 
 public class KitchenKeyLog {
@@ -13,15 +13,11 @@ public class KitchenKeyLog {
     private Person person;
 
     public KitchenKeyLog(LocalDate borrowedStartDate, LocalDate borrowedEndDate, Key key, Person person) {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.borrowedStartDate = borrowedStartDate;
         this.borrowedEndDate = borrowedEndDate;
         this.key = key;
         this.person = person;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Key getKey() {

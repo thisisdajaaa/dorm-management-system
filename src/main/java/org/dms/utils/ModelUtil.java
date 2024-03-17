@@ -6,7 +6,7 @@ import org.dms.annotations.AutoIncrement;
 import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ModelHelper {
+public class ModelUtil {
     private static final AtomicInteger count = new AtomicInteger(0);
 
     public static void handleAutoIncrement(Object entity) {

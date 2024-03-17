@@ -2,7 +2,7 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.constants.ReportStatus;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ public class IssueReport {
     private ReportStatus reportStatus;
 
     public IssueReport(String description, LocalDate reportDate) {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.description = description;
         this.reportDate = reportDate;
         reportStatus = ReportStatus.OPEN;
