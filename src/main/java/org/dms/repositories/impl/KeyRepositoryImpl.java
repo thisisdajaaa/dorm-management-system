@@ -3,6 +3,7 @@ package org.dms.repositories.impl;
 import org.dms.annotations.Component;
 import org.dms.models.Key;
 import org.dms.repositories.spec.IKeyRepository;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,7 @@ public class KeyRepositoryImpl implements IKeyRepository {
 
     @Override
     public Optional<Key> getPrimaryKey() {
-        Optional<Key> key = findAll().stream().filter(x -> x.getValue().getPrimary()).flatMap(List::map).findAny();
-
-        return Optional.ofNullable(keys.get(id));
+        return keys.values().stream().filter(Key::getPrimary).findFirst();
     }
 
     @Override
