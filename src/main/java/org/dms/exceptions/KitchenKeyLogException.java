@@ -1,9 +1,9 @@
 package org.dms.exceptions;
 
-public class KeyException {
+public class KitchenKeyLogException {
     public static class NotFoundException extends RuntimeException {
         public NotFoundException() {
-            super("Key not found!");
+            super("Kitchen key log not found!");
         }
 
         public NotFoundException(String message) {
@@ -11,12 +11,12 @@ public class KeyException {
         }
     }
 
-    public static class PrimaryException extends RuntimeException {
-        public PrimaryException() {
-            super("Assigned key must be a primary key!");
+    public static class NotAllowedException extends RuntimeException {
+        public NotAllowedException() {
+            super("Person must be a student!");
         }
 
-        public PrimaryException(String message) {
+        public NotAllowedException(String message) {
             super(message);
         }
     }

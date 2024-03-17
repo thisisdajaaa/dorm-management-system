@@ -9,5 +9,7 @@ public interface IKeyService {
 
     Key findById(Integer id);
 
+    boolean isPrimaryKey(Integer id);
+
     List<Map.Entry<Integer, Key>> findAll();
 }

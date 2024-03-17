@@ -2,7 +2,6 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.utils.ModelUtil;
-
 import java.time.LocalDate;
 
 public class RoomRequest {
