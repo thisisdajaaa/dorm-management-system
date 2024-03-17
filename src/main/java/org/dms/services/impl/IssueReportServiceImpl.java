@@ -8,6 +8,9 @@ import org.dms.models.IssueReport;
 import org.dms.repositories.spec.IIssueReportRepository;
 import org.dms.services.spec.IIssueReportService;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
 public class IssueReportServiceImpl implements IIssueReportService {
 
@@ -18,11 +21,22 @@ public class IssueReportServiceImpl implements IIssueReportService {
     public void acknowledgeIssueReport(int reportID){
         IssueReport foundIssueReport = findById(reportID);
         foundIssueReport.setReportStatus(ReportStatus.IN_PROGRESS);
-        issueReport.save(foundIssueReport);
+        save(foundIssueReport);
     }
 
+    @Override
     public IssueReport findById(int reportID)
     {
         return issueReport.findById(reportID).orElseThrow(IssueReportException.NotFoundException::new);
+    }
+
+    @Override
+    public void save(IssueReport report) {
+        issueReport.save(report);
+    }
+
+    @Override
+    public List<Map.Entry<Integer, IssueReport>> findAll() {
+        return issueReport.findAll();
     }
 }
