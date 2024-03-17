@@ -18,7 +18,6 @@ public class RoomAssignment {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
     public void assignRoomToPerson(Room room, Person person){
         this.room = room;
         this.person = person;
@@ -33,6 +32,6 @@ public class RoomAssignment {
     }
 
     public Person getPerson() {
-        return this.getPerson();
+        return this.person;
     }
 }

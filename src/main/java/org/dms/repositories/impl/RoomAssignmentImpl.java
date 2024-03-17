@@ -1,6 +1,7 @@
 package org.dms.repositories.impl;
 
 
+import org.dms.annotations.Component;
 import org.dms.models.RoomAssignment;
 import org.dms.repositories.spec.IRoomAssignmentRepository;
 
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+@Component
 public class RoomAssignmentImpl implements IRoomAssignmentRepository {
     private final Map<Integer, RoomAssignment> roomAssignMap = new HashMap<>();
 

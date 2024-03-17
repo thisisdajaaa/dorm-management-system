@@ -2,6 +2,9 @@ package org.dms.services.impl;
 
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
+import org.dms.constants.RoomStatus;
+import org.dms.exceptions.PersonException;
+import org.dms.exceptions.RoomAssignmentException;
 import org.dms.exceptions.RoomException;
 import org.dms.models.Person;
 import org.dms.models.Room;
@@ -30,22 +33,24 @@ public class RoomAssignmentServiceImpl implements IRoomAssignmentService {
     private IRoomService roomService;
 
     public void addRoomAssignment(Integer roomNumber, Integer personId, LocalDate startDate, LocalDate endDate) {
-        Person person = personService.findById(personId);
-        Room room = roomService.findById(roomNumber);
-
         RoomAssignment roomAssignment = new RoomAssignment(startDate, endDate);
-        roomAssignment.assignRoomToPerson(room, person);
-
+        roomAssignment.assignRoomToPerson(perpareRoom(roomNumber), personService.findById(personId));
         roomAssignmentRepository.save(roomAssignment);
+    }
+
+    private Room perpareRoom(Integer roomNumber) {
+        Room room = roomService.findById(roomNumber);
+        room.setStatus(RoomStatus.OCCUPIED);
+        return room;
     }
 
     @Override
     public RoomAssignment findById(Integer id) {
-        return null;
+        return roomAssignmentRepository.findById(id).orElseThrow(RoomAssignmentException::new);
     }
 
     @Override
     public List<Map.Entry<Integer, RoomAssignment>> findAll() {
-        return null;
+        return roomAssignmentRepository.findAll();
     }
 }

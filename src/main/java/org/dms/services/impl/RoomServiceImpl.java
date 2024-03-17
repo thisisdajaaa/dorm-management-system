@@ -1,6 +1,7 @@
 package org.dms.services.impl;
 
 import org.dms.annotations.Autowired;
+import org.dms.annotations.Component;
 import org.dms.constants.Role;
 import org.dms.constants.RoomStatus;
 import org.dms.exceptions.PersonException;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Component
 public class RoomServiceImpl implements IRoomService {
     @Autowired
     IRoomRepository roomRepository;
