@@ -47,18 +47,19 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
     @Override
     public void markKitchenKeyLogAsComplete() {
-        Optional<KitchenKeyLog> kitchenKeyLog = kitchenKeyLogRepository
+        KitchenKeyLog kitchenKeyLog = getOpenKeyLog();
+        kitchenKeyLog.setBorrowedEndDate(LocalDate.now());
+        keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), KeyStatus.AVAILABLE);
+    }
+
+    @Override
+    public KitchenKeyLog getOpenKeyLog() {
+        return kitchenKeyLogRepository
                 .findAll()
                 .stream()
                 .filter(x -> x.getValue().getBorrowedEndDate() == null)
                 .map(Map.Entry::getValue)
-                .findFirst();
-
-        if (kitchenKeyLog.isEmpty()) throw new KitchenKeyLogException.NotFoundException();
-
-        KitchenKeyLog keyLog = kitchenKeyLog.get();
-        keyLog.setBorrowedEndDate(LocalDate.now());
-        keyService.setKeyStatus(keyLog.getKey().getId(), KeyStatus.AVAILABLE);
+                .findFirst().orElseThrow(KitchenKeyLogException.NotFoundException::new);
     }
 
     @Override

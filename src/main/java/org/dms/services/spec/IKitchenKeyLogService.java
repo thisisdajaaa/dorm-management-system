@@ -13,5 +13,7 @@ public interface IKitchenKeyLogService {
 
     KitchenKeyLog findById(Integer id);
 
+    KitchenKeyLog getOpenKeyLog();
+
     List<Map.Entry<Integer, KitchenKeyLog>> findAll();
 }
