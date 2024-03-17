@@ -10,4 +10,14 @@ public class KeyException {
             super(message);
         }
     }
+
+    public static class PrimaryException extends RuntimeException {
+        public PrimaryException() {
+            super("Assigned key must be a primary key!");
+        }
+
+        public PrimaryException(String message) {
+            super(message);
+        }
+    }
 }

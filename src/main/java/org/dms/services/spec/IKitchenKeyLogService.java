@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IKitchenKeyLogService {
-    void addKitchenKeyLog(LocalDate borrowedStartDate, LocalDate borrowedEndDate, Integer keyId, Integer personId);
+    void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId);
 
     KitchenKeyLog findById(Integer id);
 

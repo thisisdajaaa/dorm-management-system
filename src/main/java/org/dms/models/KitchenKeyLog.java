@@ -12,10 +12,9 @@ public class KitchenKeyLog {
     private Key key;
     private Person person;
 
-    public KitchenKeyLog(LocalDate borrowedStartDate, LocalDate borrowedEndDate, Key key, Person person) {
+    public KitchenKeyLog(LocalDate borrowedStartDate, Key key, Person person) {
         ModelUtil.handleAutoIncrement(this);
         this.borrowedStartDate = borrowedStartDate;
-        this.borrowedEndDate = borrowedEndDate;
         this.key = key;
         this.person = person;
     }

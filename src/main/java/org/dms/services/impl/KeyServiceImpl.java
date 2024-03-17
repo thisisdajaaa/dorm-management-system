@@ -26,6 +26,11 @@ public class KeyServiceImpl implements IKeyService {
     }
 
     @Override
+    public boolean isPrimaryKey(Integer id) {
+        return findById(id).getPrimary();
+    }
+
+    @Override
     public List<Map.Entry<Integer, Key>> findAll() {
         return keyRepository.findAll();
     }

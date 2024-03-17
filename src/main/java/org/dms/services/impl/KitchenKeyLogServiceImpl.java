@@ -3,6 +3,7 @@ package org.dms.services.impl;
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
 import org.dms.constants.Role;
+import org.dms.exceptions.KeyException;
 import org.dms.exceptions.KitchenKeyLogException;
 import org.dms.models.Key;
 import org.dms.models.KitchenKeyLog;
@@ -28,13 +29,14 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     private IPersonService personService;
 
     @Override
-    public void addKitchenKeyLog(LocalDate borrowedStartDate, LocalDate borrowedEndDate, Integer keyId, Integer personId) {
+    public void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId) {
         Key key = keyService.findById(keyId);
         Person person = personService.findById(personId);
 
+        if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
         if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException();
 
-        KitchenKeyLog kitchenKeyLog = new KitchenKeyLog(borrowedStartDate, borrowedEndDate, key, person);
+        KitchenKeyLog kitchenKeyLog = new KitchenKeyLog(borrowedStartDate, key, person);
 
         kitchenKeyLogRepository.save(kitchenKeyLog);
     }
