@@ -22,10 +22,11 @@ public class App {
         IKitchenKeyLogService kitchenKeyLogService = Injector.getService(IKitchenKeyLogService.class);
 
         // Example usage
-        System.out.println(keyService.findAll());
-        System.out.println(personService.findById(1).getEmail());
+        // System.out.println(keyService.findAll());
+        // System.out.println(personService.findAll());
+        // System.out.println(personService.findById(1).getEmail());
 
         // Example usage of adding kitchen key log
-        kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(), LocalDate.now(), 4, 1);
+        // kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(), LocalDate.now(), 4, 1);
     }
 }

@@ -23,6 +23,7 @@ public class Seeder {
     public void seedAdmins() {
         personService.addPerson("Admin1", "admin1@example.com", "1234567890", Role.ADMIN);
         personService.addPerson("Admin2", "admin2@example.com", "0987654321", Role.ADMIN);
+        personService.addPerson("Naruto", "naruto@example.com", "123123166", Role.STUDENT);
     }
 
     public void seedKeys() {

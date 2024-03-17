@@ -10,4 +10,14 @@ public class KitchenKeyLogException {
             super(message);
         }
     }
+
+    public static class NotAllowedException extends RuntimeException {
+        public NotAllowedException() {
+            super("Person must be a student!");
+        }
+
+        public NotAllowedException(String message) {
+            super(message);
+        }
+    }
 }
