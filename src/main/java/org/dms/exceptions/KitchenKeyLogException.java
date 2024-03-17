@@ -13,7 +13,7 @@ public class KitchenKeyLogException {
 
     public static class NotAllowedException extends RuntimeException {
         public NotAllowedException() {
-            super("Person must be a student!");
+            super("Operation not allowed!");
         }
 
         public NotAllowedException(String message) {

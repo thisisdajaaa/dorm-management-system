@@ -35,8 +35,9 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
         Key key = keyService.findById(keyId);
         Person person = personService.findById(personId);
 
+        if (getOpenKeyLog().getId() != null) throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
-        if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException();
+        if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException("Person must be a student!");
 
         keyService.setKeyStatus(key.getId(), KeyStatus.BORROWED);
 
@@ -48,6 +49,9 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     @Override
     public void markKitchenKeyLogAsComplete() {
         KitchenKeyLog kitchenKeyLog = getOpenKeyLog();
+
+        if (kitchenKeyLog.getBorrowedEndDate() != null) throw new KitchenKeyLogException.NotAllowedException("A new kitchen key log is required!");
+
         kitchenKeyLog.setBorrowedEndDate(LocalDate.now());
         keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), KeyStatus.AVAILABLE);
     }
@@ -59,7 +63,8 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
                 .stream()
                 .filter(x -> x.getValue().getBorrowedEndDate() == null)
                 .map(Map.Entry::getValue)
-                .findFirst().orElseThrow(KitchenKeyLogException.NotFoundException::new);
+                .findFirst()
+                .orElseThrow(KitchenKeyLogException.NotFoundException::new);
     }
 
     @Override
