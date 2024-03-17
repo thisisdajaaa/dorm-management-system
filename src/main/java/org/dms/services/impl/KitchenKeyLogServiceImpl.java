@@ -45,9 +45,6 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
         kitchenKeyLogRepository.save(kitchenKeyLog);
     }
 
-    // TODO
-    // Add a function for ending the kitchen key log or marking it as finished
-
     @Override
     public void markKitchenKeyLogAsComplete() {
         Optional<KitchenKeyLog> kitchenKeyLog = kitchenKeyLogRepository
