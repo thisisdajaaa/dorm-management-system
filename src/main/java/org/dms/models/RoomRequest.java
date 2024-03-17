@@ -1,7 +1,7 @@
 package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ public class RoomRequest {
 
     public RoomRequest(LocalDate requestDate)
     {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.requestDate = requestDate;
         isResolved = false;
     }
