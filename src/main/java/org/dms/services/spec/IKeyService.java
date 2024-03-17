@@ -12,6 +12,10 @@ public interface IKeyService {
 
     boolean isPrimaryKey(Integer id);
 
+    Key getPrimaryKey();
+
+    KeyStatus checkPrimaryKeyStatus();
+
     List<Map.Entry<Integer, Key>> findAll();
 
     void setKeyStatus(Integer id, KeyStatus keyStatus);

@@ -32,6 +32,16 @@ public class KeyServiceImpl implements IKeyService {
     }
 
     @Override
+    public Key getPrimaryKey() {
+        return keyRepository.getPrimaryKey().orElseThrow(KeyException.NotFoundException::new);
+    }
+
+    @Override
+    public KeyStatus checkPrimaryKeyStatus() {
+        return getPrimaryKey().getKeyStatus();
+    }
+
+    @Override
     public List<Map.Entry<Integer, Key>> findAll() {
         return keyRepository.findAll();
     }
