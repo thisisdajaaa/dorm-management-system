@@ -1,6 +1,7 @@
 package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
+import org.dms.utils.ModelHelper;
 
 import java.time.LocalDate;
 
@@ -10,8 +11,8 @@ public class IssueReport {
     private String description;
     private LocalDate reportDate;
 
-    public IssueReport(Integer id, String description, LocalDate reportDate) {
-        this.id = id;
+    public IssueReport(String description, LocalDate reportDate) {
+        ModelHelper.handleAutoIncrement(this);
         this.description = description;
         this.reportDate = reportDate;
     }
