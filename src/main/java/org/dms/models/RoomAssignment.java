@@ -1,7 +1,7 @@
 package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
 
@@ -11,8 +11,9 @@ public class RoomAssignment {
     private LocalDate startDate;
     private LocalDate endDate;
     private Room room;
+
     public RoomAssignment(LocalDate startDate, LocalDate endDate) {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.startDate = startDate;
         this.endDate = endDate;
     }

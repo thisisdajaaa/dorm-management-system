@@ -2,7 +2,7 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.constants.Role;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 
 public class Person {
     @AutoIncrement
@@ -13,7 +13,7 @@ public class Person {
     private Role role;
 
     public Person(String name, String email, String contactNumber, Role role) {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.name = name;
         this.email = email;
         this.contactNumber = contactNumber;

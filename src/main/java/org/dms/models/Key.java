@@ -2,7 +2,7 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.constants.KeyStatus;
-import org.dms.utils.ModelHelper;
+import org.dms.utils.ModelUtil;
 
 public class Key {
     @AutoIncrement
@@ -11,13 +11,9 @@ public class Key {
     private KeyStatus keyStatus;
 
     public Key(Boolean isPrimary) {
-        ModelHelper.handleAutoIncrement(this);
+        ModelUtil.handleAutoIncrement(this);
         this.isPrimary = isPrimary;
         this.keyStatus = KeyStatus.AVAILABLE;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public KeyStatus getKeyStatus() {
