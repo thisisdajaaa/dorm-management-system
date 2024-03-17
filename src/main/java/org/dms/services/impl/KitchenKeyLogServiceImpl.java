@@ -2,6 +2,7 @@ package org.dms.services.impl;
 
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
+import org.dms.constants.KeyStatus;
 import org.dms.constants.Role;
 import org.dms.exceptions.KeyException;
 import org.dms.exceptions.KitchenKeyLogException;
@@ -35,6 +36,8 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
         if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException();
+
+        key.setKeyStatus(KeyStatus.BORROWED);
 
         KitchenKeyLog kitchenKeyLog = new KitchenKeyLog(borrowedStartDate, key, person);
 

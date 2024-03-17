@@ -23,6 +23,13 @@ public class KeyRepositoryImpl implements IKeyRepository {
     }
 
     @Override
+    public Optional<Key> getPrimaryKey() {
+        Optional<Key> key = findAll().stream().filter(x -> x.getValue().getPrimary()).flatMap(List::map).findAny();
+
+        return Optional.ofNullable(keys.get(id));
+    }
+
+    @Override
     public List<Map.Entry<Integer, Key>> findAll() {
         return keys.entrySet().stream().toList();
     }
