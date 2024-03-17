@@ -2,6 +2,7 @@ package org.dms.services.impl;
 
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
+import org.dms.constants.KeyStatus;
 import org.dms.exceptions.KeyException;
 import org.dms.models.Key;
 import org.dms.repositories.spec.IKeyRepository;
@@ -33,5 +34,12 @@ public class KeyServiceImpl implements IKeyService {
     @Override
     public List<Map.Entry<Integer, Key>> findAll() {
         return keyRepository.findAll();
+    }
+
+    @Override
+    public void setKeyStatus(Integer id, KeyStatus keyStatus) {
+        Key key = findById(id);
+        key.setKeyStatus(keyStatus);
+        keyRepository.save(key);
     }
 }
