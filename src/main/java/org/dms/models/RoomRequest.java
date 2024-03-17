@@ -21,23 +21,15 @@ public class RoomRequest {
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public LocalDate getRequestDate() {
         return requestDate;
     }
-
     public void setRequestDate(LocalDate requestDate) {
         this.requestDate = requestDate;
     }
-
     public boolean isResolved() {
         return isResolved;
     }
-
     public void setResolved(boolean resolved) {
         isResolved = resolved;
     }
