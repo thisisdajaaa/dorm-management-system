@@ -9,6 +9,8 @@ import java.util.Map;
 public interface IKitchenKeyLogService {
     void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId);
 
+    void markKitchenKeyLogAsComplete();
+
     KitchenKeyLog findById(Integer id);
 
     List<Map.Entry<Integer, KitchenKeyLog>> findAll();

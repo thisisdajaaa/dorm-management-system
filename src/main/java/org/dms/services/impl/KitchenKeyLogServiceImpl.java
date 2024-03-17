@@ -17,6 +17,7 @@ import org.dms.services.spec.IPersonService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
@@ -46,6 +47,22 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
     // TODO
     // Add a function for ending the kitchen key log or marking it as finished
+
+    @Override
+    public void markKitchenKeyLogAsComplete() {
+        Optional<KitchenKeyLog> kitchenKeyLog = kitchenKeyLogRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getValue().getBorrowedEndDate() == null)
+                .map(Map.Entry::getValue)
+                .findFirst();
+
+        if (kitchenKeyLog.isEmpty()) throw new KitchenKeyLogException.NotFoundException();
+
+        KitchenKeyLog keyLog = kitchenKeyLog.get();
+        keyLog.setBorrowedEndDate(LocalDate.now());
+        keyService.setKeyStatus(keyLog.getKey().getId(), KeyStatus.AVAILABLE);
+    }
 
     @Override
     public KitchenKeyLog findById(Integer id) {
