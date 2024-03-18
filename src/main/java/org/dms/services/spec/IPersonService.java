@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPersonService {
-    void addPerson(String name, String email, String contactNumber, Role role);
+    void addPerson(String name, String email, String contactNumber, String password, Role role);
 
     Person findById(Integer id);
 

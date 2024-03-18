@@ -11,13 +11,32 @@ public class Person {
     private String email;
     private String contactNumber;
     private Role role;
+    private String password;
+    private Boolean isLoggedIn;
 
-    public Person(String name, String email, String contactNumber, Role role) {
+    public Person(String name, String email, String contactNumber, String password, Role role) {
         ModelUtil.handleAutoIncrement(this);
         this.name = name;
         this.email = email;
         this.contactNumber = contactNumber;
         this.role = role;
+        this.password = password;
+    }
+
+    public Boolean getLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(Boolean loggedIn) {
+        isLoggedIn = loggedIn;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setId(Integer id) {
