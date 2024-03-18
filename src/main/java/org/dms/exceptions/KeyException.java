@@ -20,4 +20,12 @@ public class KeyException {
             super(message);
         }
     }
+
+    public static class NoSecondaryKeyException extends  RuntimeException{
+        public NoSecondaryKeyException(){super("No existing secondary key. Cannot create a new primary key!");}
+
+        public NoSecondaryKeyException(String message){
+            super(message);
+        }
+    }
 }

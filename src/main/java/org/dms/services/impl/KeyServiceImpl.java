@@ -9,6 +9,7 @@ import org.dms.repositories.spec.IKeyRepository;
 import org.dms.services.spec.IKeyService;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class KeyServiceImpl implements IKeyService {
@@ -50,5 +51,21 @@ public class KeyServiceImpl implements IKeyService {
         Key key = findById(id);
         key.setKeyStatus(keyStatus);
         keyRepository.save(key);
+    }
+
+    @Override
+    public void reportStolenKey() {
+        Key primaryKey = getPrimaryKey();
+        primaryKey.setPrimary(false);
+        primaryKey.setKeyStatus(KeyStatus.LOST);
+
+        //Make another key Primary since the Primary Key was reported lost
+        Optional<Key> secondaryKeyToPrimary = findAll().stream()
+                .filter(key -> key.getValue().getKeyStatus() == KeyStatus.AVAILABLE)
+                .map(Map.Entry::getValue)
+                .findFirst();
+
+        secondaryKeyToPrimary.ifPresentOrElse(secondaryKey -> secondaryKey.setPrimary(true),
+                KeyException.NoSecondaryKeyException::new);
     }
 }
