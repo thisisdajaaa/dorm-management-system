@@ -25,4 +25,5 @@ public class IssueReportImpl implements IIssueReportRepository {
     public List<Map.Entry<Integer, IssueReport>> findAll() {
         return issueReports.entrySet().stream().toList();
     }
+
 }
