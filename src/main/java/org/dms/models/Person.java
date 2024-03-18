@@ -21,6 +21,7 @@ public class Person {
         this.contactNumber = contactNumber;
         this.role = role;
         this.password = password;
+        this.isLoggedIn = false;
     }
 
     public Boolean getLoggedIn() {
@@ -85,6 +86,7 @@ public class Person {
                 Email: \{email}
                 Contact Number: \{contactNumber}
                 Role: \{role}
+                IS_LOGGED_IN: \{isLoggedIn}
                 """;
     }
 }

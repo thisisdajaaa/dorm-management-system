@@ -28,6 +28,7 @@ public class App {
         IRoomService roomService = Injector.getService(IRoomService.class);
         IRoomAssignmentService roomAssignmentService = Injector.getService(IRoomAssignmentService.class);
         IRoomRequestService roomRequestService = Injector.getService(IRoomRequestService.class);
+        IAuthenticationService authenticationService = Injector.getService(IAuthenticationService.class);
 
         // Example usage
         // System.out.println(keyService.findAll());
@@ -71,6 +72,13 @@ public class App {
 
         // make a room change request
         roomChangeRequest(roomAssignmentService, roomRequestService);
+
+        // Test login functionality
+        System.out.println("LOGGGINN");
+        authenticationService.login("naruto@example.com", "test12345");
+
+        System.out.println("user: " + personService.findById(3));
+        System.out.println("user: " + personService.findAll());
     }
 
     private static void roomChangeRequest(IRoomAssignmentService roomAssignmentService,
