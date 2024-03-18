@@ -15,7 +15,7 @@ public class RoomRepositoryImpl implements IRoomRepository {
     private final Map<Integer, Room> roomMap = new HashMap<>();
     @Override
     public void save(Room room) {
-        this.roomMap.put(room.roomNumber(), room);
+        this.roomMap.put(room.getRoomNumber(), room);
     }
     @Override
     public Optional<Room> findById(Integer id) {

@@ -32,16 +32,14 @@ public class App {
          // kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),4, 3);
 
         //Example of room usage
-        System.out.println("-----------------rooms");
-        System.out.println(roomService.findAll());
-        System.out.println("-----------------room assignment");
-        System.out.println("room assignmentn size ---> " + roomService.findAll().size());
+        System.out.println("room assignmentn size ---> " + roomAssignmentService.findAll().size());
         roomAssignmentService.findAll()
                 .stream()
                 .map(e -> e.getValue())
-                .forEach(e ->{
-                    System.out.println(e.getRoom().roomNumber());
-                    System.out.println(e.getPerson().getName());
+                .forEach(roomAssignment ->{
+                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
+                            roomAssignment.getRoom().getRoomNumber(),
+                            roomAssignment.getPerson().getName()));
                 });
     }
 }

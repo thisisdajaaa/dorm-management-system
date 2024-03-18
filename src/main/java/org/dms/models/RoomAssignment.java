@@ -13,16 +13,13 @@ public class RoomAssignment {
     private Room room;
     private Person person;
 
-    public RoomAssignment(LocalDate startDate, LocalDate endDate) {
+    public RoomAssignment(LocalDate startDate, LocalDate endDate, Person person, Room room) {
         ModelUtil.handleAutoIncrement(this);
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-    public void assignRoomToPerson(Room room, Person person){
-        this.room = room;
         this.person = person;
+        this.room = room;
     }
-
     public Integer getId() {
         return id;
     }

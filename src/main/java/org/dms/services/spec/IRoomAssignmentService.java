@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRoomAssignmentService {
-    void addRoomAssignment(Integer roomNumber, Integer personId, LocalDate startDate, LocalDate endDate);
+    void addToRepository(RoomAssignment roomAssignment);
     RoomAssignment findById(Integer id);
     List<Map.Entry<Integer, RoomAssignment>> findAll();
 }

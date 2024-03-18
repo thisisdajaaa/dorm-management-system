@@ -37,16 +37,9 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public Optional<Room> checkInRoom() {
-        if(!isRoomAvailable()){
-            return Optional.empty();
-        }
         return findAll().stream()
-                .map(entry -> entry.getValue())
+                .map(Map.Entry::getValue)
                 .filter(r -> r.getStatus() == RoomStatus.AVAILABLE)
-                .findFirst();
-    }
-
-    private boolean isRoomAvailable() {
-        return findAll().size() < IRoomService.MAX_ROOM_CAPACITY;
+                .findAny();
     }
 }

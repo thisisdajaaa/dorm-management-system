@@ -2,9 +2,11 @@ package org.dms.configs;
 
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
+import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
 import org.dms.constants.Role;
 import org.dms.models.Room;
+import org.dms.models.RoomAssignment;
 import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IPersonService;
 import org.dms.services.spec.IRoomAssignmentService;
@@ -13,6 +15,7 @@ import org.dms.services.spec.IRoomService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class Seeder {
@@ -35,16 +38,33 @@ public class Seeder {
 
     private void seedRoomAssignment() {
         List<Map.Entry<Integer, Person>> persons = personService.findAll();
+        List<Room> rooms = roomService.findAll().stream().map(Map.Entry::getValue).toList();
 
         persons.stream()
-                .map(entry -> entry.getValue())
+                .map(Map.Entry::getValue)
+                .filter(person -> person.getRole() == Role.STUDENT)
                 .forEach(person -> {
-                    if(roomService.checkInRoom().isPresent()) {
-                        Room room = roomService.checkInRoom().get();
-                        roomAssignmentService.addRoomAssignment(room.roomNumber(), person.getId(),
-                                LocalDate.of(2023,02,21), LocalDate.of(202,01,01));
+                    Optional<Room> roomOption = getRoomOption(rooms);
+                    if(roomOption.isPresent()) {
+                        Room room = roomOption.get();
+                        room.setStatus(RoomStatus.OCCUPIED);
+                        RoomAssignment roomAssignment = new RoomAssignment(
+                                LocalDate.of(2023, 01, 01),
+                                LocalDate.of(2024, 01, 01),
+                                person, room);
+                        roomAssignmentService.addToRepository(roomAssignment);
+                        System.out.println("ROOM ASSIGNMENT ADD.........");
                     }
                 });
+    }
+
+    private static Optional<Room> getRoomOption(List<Room> rooms) {
+        for (Room room: rooms) {
+            if(room.getStatus() == RoomStatus.AVAILABLE) {
+                return Optional.of(room);
+            }
+        }
+        return Optional.empty();
     }
 
     private void seedRooms() {
