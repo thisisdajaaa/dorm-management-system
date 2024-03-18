@@ -37,7 +37,7 @@ public class RoomAssignment {
         return STR."""
                 Start Date: \{startDate}
                 End Date : \{endDate}
-                Room: \{room.roomNumber()}
+                Room: \{room.getRoomNumber()}
                 """;
     }
 }

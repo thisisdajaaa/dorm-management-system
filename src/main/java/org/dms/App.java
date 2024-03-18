@@ -63,14 +63,19 @@ public class App {
 //          System.out.println(keyService.findAll().stream().map(x -> x.getValue().getKeyStatus()).toList().toString());
 
         //Example of room usage
-        System.out.println("room assignmentn size ---> " + roomAssignmentService.findAll().size());
-        roomAssignmentService.findAll()
-                .stream()
-                .map(e -> e.getValue())
-                .forEach(roomAssignment ->{
-                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                            roomAssignment.getRoom().getRoomNumber(),
-                            roomAssignment.getPerson().getName()));
-                });
+//        System.out.println("room assignmentn size ---> " + roomAssignmentService.findAll().size());
+//        roomAssignmentService.findAll()
+//                .stream()
+//                .map(e -> e.getValue())
+//                .forEach(roomAssignment ->{
+//                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
+//                            roomAssignment.getRoom().getRoomNumber(),
+//                            roomAssignment.getPerson().getName()));
+//                });
+
+        //This is to test the reportStolenKey functionality
+//        System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
+//        keyService.reportStolenKey();
+//        System.out.println("AFTER REPORT====================\n" + keyService.findAll());
     }
 }

@@ -19,4 +19,6 @@ public interface IKeyService {
     List<Map.Entry<Integer, Key>> findAll();
 
     void setKeyStatus(Integer id, KeyStatus keyStatus);
+
+    void reportStolenKey();
 }
