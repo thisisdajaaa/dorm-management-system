@@ -32,4 +32,12 @@ public class RoomRequest {
     public void setResolved(boolean resolved) {
         isResolved = resolved;
     }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Change Request Date: \{requestDate}
+                Has this request been resolved: \{isResolved}
+                """;
+    }
 }

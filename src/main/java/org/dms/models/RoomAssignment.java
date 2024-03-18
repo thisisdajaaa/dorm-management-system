@@ -31,4 +31,13 @@ public class RoomAssignment {
     public Person getPerson() {
         return this.person;
     }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Start Date: \{startDate}
+                End Date : \{endDate}
+                Room: \{room.roomNumber()}
+                """;
+    }
 }

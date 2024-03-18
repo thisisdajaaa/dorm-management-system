@@ -5,6 +5,8 @@ import org.dms.constants.ReportStatus;
 import org.dms.utils.ModelUtil;
 import java.time.LocalDate;
 
+import static java.lang.StringTemplate.STR;
+
 public class IssueReport {
     @AutoIncrement
     private Integer id;
@@ -41,5 +43,14 @@ public class IssueReport {
 
     public void setReportStatus(ReportStatus reportStatus) {
         this.reportStatus = reportStatus;
+    }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Issue Report Description : \{description}
+                Issue Report Date : \{reportDate.toString()}
+                Issue Report Status: \{reportStatus}
+                """;
     }
 }
