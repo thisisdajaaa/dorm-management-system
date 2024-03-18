@@ -70,14 +70,12 @@ public class App {
         keyService.reportStolenKey();
         System.out.println("AFTER REPORT====================\n" + keyService.findAll());
 
-
-        // Test login functionality
         System.out.println("LOGGGINN");
         authenticationService.login("naruto@example.com", "test12345");
 
         System.out.println("user: " + personService.findById(3));
         System.out.println("user: " + personService.findAll());
-
+        
         //This is to test the addIssueReport functionality
         Optional<RoomAssignment> roomAssignment = roomAssignmentService.findAll()
                 .stream()
