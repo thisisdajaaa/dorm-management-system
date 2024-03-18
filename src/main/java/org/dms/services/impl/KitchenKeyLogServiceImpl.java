@@ -52,9 +52,6 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     public void markKitchenKeyLogAsComplete() {
         KitchenKeyLog kitchenKeyLog = getOpenKeyLog().orElseThrow(KitchenKeyLogException.NotFoundException::new);
 
-        if (kitchenKeyLog.getBorrowedEndDate() != null)
-            throw new KitchenKeyLogException.NotAllowedException("A new kitchen key log is required!");
-
         kitchenKeyLog.setBorrowedEndDate(LocalDate.now());
         keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), KeyStatus.AVAILABLE);
     }
