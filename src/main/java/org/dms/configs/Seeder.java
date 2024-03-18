@@ -56,9 +56,11 @@ public class Seeder {
                         System.out.println("ROOM ASSIGNMENT ADD.........");
                     }
                 });
+
+        // System.out.println(roomAssignmentService.findAll());
     }
 
-    private static Optional<Room> getRoomOption(List<Room> rooms) {
+    public static Optional<Room> getRoomOption(List<Room> rooms) {
         for (Room room: rooms) {
             if(room.getStatus() == RoomStatus.AVAILABLE) {
                 return Optional.of(room);
@@ -76,6 +78,8 @@ public class Seeder {
         personService.addPerson("Admin1", "admin1@example.com", "1234567890", Role.ADMIN);
         personService.addPerson("Admin2", "admin2@example.com", "0987654321", Role.ADMIN);
         personService.addPerson("Naruto", "naruto@example.com", "123123166", Role.STUDENT);
+        personService.addPerson("Opu", "naruto@example.com", "123123166", Role.STUDENT);
+        personService.addPerson("Marc", "naruto@example.com", "123123166", Role.STUDENT);
     }
 
     public void seedKeys() {

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Component
 public class RoomRepositoryImpl implements IRoomRepository {
-    private final Map<Integer, Room> roomMap = new HashMap<>();
+    private final static Map<Integer, Room> roomMap = new HashMap<>();
     @Override
     public void save(Room room) {
         this.roomMap.put(room.getRoomNumber(), room);

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 public class PersonRepositoryImpl implements IPersonRepository {
-    private final Map<Integer, Person> people = new HashMap<>();
+    private final static Map<Integer, Person> people = new HashMap<>();
 
     @Override
     public void save(Person person) {

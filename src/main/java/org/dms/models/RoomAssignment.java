@@ -5,6 +5,8 @@ import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
 
+import static java.lang.StringTemplate.STR;
+
 public class RoomAssignment {
     @AutoIncrement
     private Integer id;

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 public class IssueReportImpl implements IIssueReportRepository {
-    private final Map<Integer, IssueReport> issueReports = new HashMap<>();
+    private final static Map<Integer, IssueReport> issueReports = new HashMap<>();
     @Override
     public void save(IssueReport issueReport) {
         issueReports.put(issueReport.getId(), issueReport);
