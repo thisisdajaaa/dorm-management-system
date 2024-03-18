@@ -5,6 +5,8 @@ import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
 
+import static java.lang.StringTemplate.STR;
+
 public class RoomAssignment {
     @AutoIncrement
     private Integer id;
@@ -37,7 +39,7 @@ public class RoomAssignment {
         return STR."""
                 Start Date: \{startDate}
                 End Date : \{endDate}
-                Room: \{room.roomNumber()}
+                Room: \{room.getRoomNumber()}
                 """;
     }
 }
