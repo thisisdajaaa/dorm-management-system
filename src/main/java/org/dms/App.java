@@ -2,6 +2,9 @@ package org.dms;
 
 import org.dms.configs.Injector;
 import org.dms.configs.Seeder;
+import org.dms.constants.RequestType;
+import org.dms.models.RoomAssignment;
+import org.dms.models.RoomRequest;
 import org.dms.services.spec.IIssueReportService;
 import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
@@ -24,6 +27,7 @@ public class App {
         IIssueReportService issueReportService = Injector.getService(IIssueReportService.class);
         IRoomService roomService = Injector.getService(IRoomService.class);
         IRoomAssignmentService roomAssignmentService = Injector.getService(IRoomAssignmentService.class);
+        IRoomRequestService roomRequestService = Injector.getService(IRoomRequestService.class);
 
         // Example usage
         // System.out.println(keyService.findAll());
@@ -64,5 +68,17 @@ public class App {
         System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
         keyService.reportStolenKey();
         System.out.println("AFTER REPORT====================\n" + keyService.findAll());
+
+        // make a room change request
+        roomChangeRequest(roomAssignmentService, roomRequestService);
     }
+
+    private static void roomChangeRequest(IRoomAssignmentService roomAssignmentService,
+        IRoomRequestService roomRequestService) {
+
+        // RoomAssignment roomAssignment = roomAssignmentService.findAll().get(0).getValue();
+        // RoomRequest roomRequest = new RoomRequest(LocalDate.now(), roomAssignment, RequestType.CHANGE);
+        // RoomRequest roomReuqest = roomRequestService.findById(roomRequest.getId());
+    }
+
 }
