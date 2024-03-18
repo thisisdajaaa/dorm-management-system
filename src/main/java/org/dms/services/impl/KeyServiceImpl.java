@@ -22,7 +22,6 @@ public class KeyServiceImpl implements IKeyService {
 
     @Override
     public Key findById(Integer id) {
-        System.out.println("Service: + " + findAll());
         return keyRepository.findById(id).orElseThrow(KeyException.NotFoundException::new);
     }
 

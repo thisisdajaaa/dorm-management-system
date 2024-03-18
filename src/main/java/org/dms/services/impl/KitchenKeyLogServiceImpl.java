@@ -61,9 +61,6 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
     @Override
     public Optional<KitchenKeyLog> getOpenKeyLog() {
-        System.out.println(findAll());
-        System.out.println("watt" + findAll().stream().map(Map.Entry::getValue).filter(x -> x.getBorrowedEndDate() == null).findFirst());
-
         return findAll()
                 .stream()
                 .map(Map.Entry::getValue)
