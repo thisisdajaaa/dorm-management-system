@@ -39,6 +39,7 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
         if (!findAll().isEmpty() && keyLog.isPresent())throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
+        if (key.getKeyStatus() != KeyStatus.AVAILABLE) throw new KitchenKeyLogException.NotAllowedException("Key should be available!");
         if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException("Person must be a student!");
 
         keyService.setKeyStatus(key.getId(), KeyStatus.BORROWED);
