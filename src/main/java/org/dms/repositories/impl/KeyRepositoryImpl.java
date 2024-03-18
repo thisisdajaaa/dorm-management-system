@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Component
 public class KeyRepositoryImpl implements IKeyRepository {
-    private final Map<Integer, Key> keys = new HashMap<>();
+    private final static Map<Integer, Key> keys = new HashMap<>();
 
     @Override
     public void save(Key key) {

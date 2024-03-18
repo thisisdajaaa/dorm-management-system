@@ -60,7 +60,6 @@ public class KitchenKeyLog {
     }
 
     @Override
-
     public String toString() {
         String borrowedEndDateStatus = "";
         Optional<LocalDate> borrowedEndDate = Optional.ofNullable(getBorrowedEndDate());

@@ -5,6 +5,7 @@ import org.dms.models.KitchenKeyLog;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface IKitchenKeyLogService {
     void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId);
@@ -13,7 +14,9 @@ public interface IKitchenKeyLogService {
 
     KitchenKeyLog findById(Integer id);
 
-    KitchenKeyLog getOpenKeyLog();
+    Optional<KitchenKeyLog> getOpenKeyLog();
 
     List<Map.Entry<Integer, KitchenKeyLog>> findAll();
+
+    List<Map.Entry<Integer, KitchenKeyLog>> findAllByLatestStartDate();
 }

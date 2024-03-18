@@ -19,10 +19,12 @@ public class KeyServiceImpl implements IKeyService {
         Key newKey = new Key(isPrimary);
         keyRepository.save(newKey);
     }
+
     @Override
     public Key findById(Integer id) {
         return keyRepository.findById(id).orElseThrow(KeyException.NotFoundException::new);
     }
+
     @Override
     public boolean isPrimaryKey(Integer id) {
         return findById(id).getPrimary();
