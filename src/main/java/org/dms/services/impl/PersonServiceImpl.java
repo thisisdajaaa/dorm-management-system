@@ -17,8 +17,8 @@ public class PersonServiceImpl implements IPersonService {
     private IPersonRepository personRepository;
 
     @Override
-    public void addPerson(String name, String email, String contactNumber, Role role) {
-        personRepository.save(new Person(name, email, contactNumber, role));
+    public void addPerson(String name, String email, String contactNumber, String password, Role role) {
+        personRepository.save(new Person(name, email, contactNumber, password, role));
     }
 
     @Override

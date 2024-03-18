@@ -29,6 +29,8 @@ public class Seeder {
     @Autowired
     private IRoomAssignmentService roomAssignmentService;
 
+    private final static String DEFAULT_PASSWORD = "test12345";
+
     public void run() {
         seedAdmins();
         seedKeys();
@@ -45,7 +47,7 @@ public class Seeder {
                 .filter(person -> person.getRole() == Role.STUDENT)
                 .forEach(person -> {
                     Optional<Room> roomOption = getRoomOption(rooms);
-                    if(roomOption.isPresent()) {
+                    if (roomOption.isPresent()) {
                         Room room = roomOption.get();
                         room.setStatus(RoomStatus.OCCUPIED);
                         RoomAssignment roomAssignment = new RoomAssignment(
@@ -61,8 +63,8 @@ public class Seeder {
     }
 
     public static Optional<Room> getRoomOption(List<Room> rooms) {
-        for (Room room: rooms) {
-            if(room.getStatus() == RoomStatus.AVAILABLE) {
+        for (Room room : rooms) {
+            if (room.getStatus() == RoomStatus.AVAILABLE) {
                 return Optional.of(room);
             }
         }
@@ -75,11 +77,11 @@ public class Seeder {
     }
 
     public void seedAdmins() {
-        personService.addPerson("Admin1", "admin1@example.com", "1234567890", Role.ADMIN);
-        personService.addPerson("Admin2", "admin2@example.com", "0987654321", Role.ADMIN);
-        personService.addPerson("Naruto", "naruto@example.com", "123123166", Role.STUDENT);
-        personService.addPerson("Opu", "naruto@example.com", "123123166", Role.STUDENT);
-        personService.addPerson("Marc", "naruto@example.com", "123123166", Role.STUDENT);
+        personService.addPerson("Admin1", "admin1@example.com", "1234567890", DEFAULT_PASSWORD, Role.ADMIN);
+        personService.addPerson("Admin2", "admin2@example.com", "0987654321", DEFAULT_PASSWORD, Role.ADMIN);
+        personService.addPerson("Naruto", "naruto@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
+        personService.addPerson("Opu", "naruto@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
+        personService.addPerson("Marc", "naruto@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
     }
 
     public void seedKeys() {
