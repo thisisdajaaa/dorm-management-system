@@ -2,6 +2,7 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.constants.ReportStatus;
+import org.dms.constants.Severity;
 import org.dms.utils.ModelUtil;
 import java.time.LocalDate;
 
@@ -13,11 +14,15 @@ public class IssueReport {
     private String description;
     private LocalDate reportDate;
     private ReportStatus reportStatus;
+    private Severity severity;
+    private  RoomAssignment roomAssignment;
 
-    public IssueReport(String description, LocalDate reportDate) {
+    public IssueReport(String description, LocalDate reportDate, Severity severity, RoomAssignment roomAssignment) {
         ModelUtil.handleAutoIncrement(this);
         this.description = description;
         this.reportDate = reportDate;
+        this.severity = severity;
+        this.roomAssignment = roomAssignment;
         reportStatus = ReportStatus.OPEN;
     }
 
@@ -45,12 +50,35 @@ public class IssueReport {
         this.reportStatus = reportStatus;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public RoomAssignment getRoomAssignment() {
+        return roomAssignment;
+    }
+
+    public void setRoomAssignment(RoomAssignment roomAssignment) {
+        this.roomAssignment = roomAssignment;
+    }
+
     @Override
     public String toString() {
         return STR."""
-                Issue Report Description : \{description}
-                Issue Report Date : \{reportDate.toString()}
-                Issue Report Status: \{reportStatus}
+                Issue Report
+                Description : \{description}
+                Date : \{reportDate.toString()}
+                Status: \{reportStatus}
+                Severity: \{severity}
+                Room Number : \{roomAssignment.getRoom().getRoomNumber()}
                 """;
     }
 }

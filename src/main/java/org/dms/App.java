@@ -2,12 +2,16 @@ package org.dms;
 
 import org.dms.configs.Injector;
 import org.dms.configs.Seeder;
+import org.dms.constants.Severity;
+import org.dms.models.RoomAssignment;
 import org.dms.services.spec.IIssueReportService;
 import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 import org.dms.services.spec.*;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.Optional;
 
 public class App {
     public static void main(String[] args) {
@@ -64,5 +68,16 @@ public class App {
         System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
         keyService.reportStolenKey();
         System.out.println("AFTER REPORT====================\n" + keyService.findAll());
+
+        //This is to test the addIssueReport functionality
+        Optional<RoomAssignment> roomAssignment = roomAssignmentService.findAll()
+                .stream()
+                .map(Map.Entry::getValue)
+                .findFirst();
+
+        System.out.println("Here are the Issue Reports Before : " + issueReportService.findAll());
+        issueReportService.addIssueReport("Sink clogged", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
     }
 }
