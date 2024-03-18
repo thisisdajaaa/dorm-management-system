@@ -11,5 +11,7 @@ public interface IPersonService {
 
     Person findById(Integer id);
 
+    Person getPersonByEmailAndPassword(String email, String password);
+
     List<Map.Entry<Integer, Person>> findAll();
 }
