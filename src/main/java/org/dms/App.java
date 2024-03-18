@@ -28,8 +28,9 @@ public class App {
          System.out.println(personService.findAll());
         // System.out.println(personService.findById(1).getEmail());
 
-         // Example usage of adding kitchen key log
-         // kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),4, 3);
+        // Example usage of adding kitchen key log
+//          kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),4, 3);
+//          System.out.println(keyService.findAll().stream().map(x -> x.getValue().getKeyStatus()).toList().toString());
 
         //Example of room usage
         System.out.println("room assignmentn size ---> " + roomAssignmentService.findAll().size());
