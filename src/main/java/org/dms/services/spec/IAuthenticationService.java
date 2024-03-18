@@ -4,4 +4,5 @@ import org.dms.constants.Role;
 
 public interface IAuthenticationService {
     void register(String name, String email, String contactNumber, String password);
+    void login(String email, String password);
 }
