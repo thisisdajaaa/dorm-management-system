@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 @Component
 public class RoomAssignmentImpl implements IRoomAssignmentRepository {
-    private final Map<Integer, RoomAssignment> roomAssignMap = new HashMap<>();
+    private final static Map<Integer, RoomAssignment> roomAssignMap = new HashMap<>();
 
     @Override
     public void save(RoomAssignment roomAssignment) {

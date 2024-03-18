@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Component
 public class KitchenKeyLogRepositoryImpl implements IKitchenKeyLogRepository {
-    private final Map<Integer, KitchenKeyLog> kitchenKeyLogs = new HashMap<>();
+    private final static Map<Integer, KitchenKeyLog> kitchenKeyLogs = new HashMap<>();
 
     @Override
     public void save(KitchenKeyLog kitchenKeyLog) {

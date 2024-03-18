@@ -38,37 +38,37 @@ public class App {
                 // System.out.println(keyService.findAll());
                 // System.out.println(personService.findAll());
                 // Example usage
-                System.out.println(keyService.findAll());
+                System.out.println("Key List: " + keyService.findAll());
                 System.out.println(personService.findAll());
-                // System.out.println(personService.findById(1).getEmail());
+                 System.out.println(personService.findById(1).getEmail());
                 //
                 // // Example usage of adding kitchen key log
-                // kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),4, 3);
-                // System.out.println(keyService.findAll().stream().map(x ->
-                // x.getValue().getKeyStatus()).toList().toString());
+                 kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),6, 3);
+                 System.out.println(keyService.findAll().stream().map(x ->
+                 x.getValue().getKeyStatus()).toList().toString());
                 //
-                // System.out.println(personService.findAll());
-                // System.out.println(kitchenKeyLogService.findAll().stream().map(x ->
-                // x.getValue()).toList());
+                 System.out.println(personService.findAll());
+                 System.out.println(kitchenKeyLogService.findAll().stream().map(x ->
+                 x.getValue()).toList());
 
                 // Example usage of marking kitchen key log complete
-                // kitchenKeyLogService.markKitchenKeyLogAsComplete();
+                 kitchenKeyLogService.markKitchenKeyLogAsComplete();
                 //
-                // kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),4, 3);
+                 kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(),6, 3);
 
                 // Example usage of kitchen key log sort by latest start date
-                // System.out.println(kitchenKeyLogService.findAllByLatestStartDate());
+                 System.out.println(kitchenKeyLogService.findAllByLatestStartDate());
 
                 // Example of room usage
-                // System.out.println("room assignmentn size ---> " +
-                // roomAssignmentService.findAll().size());
-                // roomAssignmentService.findAll()
-                // .stream()
-                // .map(e -> e.getValue())
-                // .forEach(roomAssignment ->{
-                // System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                // roomAssignment.getRoom().getRoomNumber(),
-                // roomAssignment.getPerson().getName()));
-                // });
+                 System.out.println("room assignmentn size ---> " +
+                 roomAssignmentService.findAll().size());
+                 roomAssignmentService.findAll()
+                 .stream()
+                 .map(e -> e.getValue())
+                 .forEach(roomAssignment ->{
+                 System.out.println(String.format("..{roomNo: %d, person: %s}..",
+                 roomAssignment.getRoom().getRoomNumber(),
+                 roomAssignment.getPerson().getName()));
+                 });
         }
 }
