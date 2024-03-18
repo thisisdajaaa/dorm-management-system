@@ -3,7 +3,6 @@ package org.dms.models;
 import org.dms.annotations.AutoIncrement;
 import org.dms.constants.ReportStatus;
 import org.dms.utils.ModelUtil;
-
 import java.time.LocalDate;
 
 import static java.lang.StringTemplate.STR;

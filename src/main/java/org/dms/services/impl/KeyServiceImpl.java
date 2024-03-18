@@ -14,18 +14,15 @@ import java.util.Map;
 public class KeyServiceImpl implements IKeyService {
     @Autowired
     private IKeyRepository keyRepository;
-
     @Override
     public void addKey(boolean isPrimary) {
         Key newKey = new Key(isPrimary);
         keyRepository.save(newKey);
     }
-
     @Override
     public Key findById(Integer id) {
         return keyRepository.findById(id).orElseThrow(KeyException.NotFoundException::new);
     }
-
     @Override
     public boolean isPrimaryKey(Integer id) {
         return findById(id).getPrimary();
