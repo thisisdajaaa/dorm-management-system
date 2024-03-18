@@ -56,9 +56,11 @@ public class Seeder {
                         System.out.println("ROOM ASSIGNMENT ADD.........");
                     }
                 });
+
+        System.out.println(roomAssignmentService.findAll());
     }
 
-    private static Optional<Room> getRoomOption(List<Room> rooms) {
+    public static Optional<Room> getRoomOption(List<Room> rooms) {
         for (Room room: rooms) {
             if(room.getStatus() == RoomStatus.AVAILABLE) {
                 return Optional.of(room);

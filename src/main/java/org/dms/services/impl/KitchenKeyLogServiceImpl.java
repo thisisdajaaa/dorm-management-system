@@ -15,6 +15,7 @@ import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,8 +35,9 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     public void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId) {
         Key key = keyService.findById(keyId);
         Person person = personService.findById(personId);
+        Optional<KitchenKeyLog> keyLog = getOpenKeyLog();
 
-        if (getOpenKeyLog().getId() != null) throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
+        if (!findAll().isEmpty() && keyLog.isPresent())throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
         if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException("Person must be a student!");
 
@@ -48,23 +50,25 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
 
     @Override
     public void markKitchenKeyLogAsComplete() {
-        KitchenKeyLog kitchenKeyLog = getOpenKeyLog();
+        KitchenKeyLog kitchenKeyLog = getOpenKeyLog().orElseThrow(KitchenKeyLogException.NotFoundException::new);
 
-        if (kitchenKeyLog.getBorrowedEndDate() != null) throw new KitchenKeyLogException.NotAllowedException("A new kitchen key log is required!");
+        if (kitchenKeyLog.getBorrowedEndDate() != null)
+            throw new KitchenKeyLogException.NotAllowedException("A new kitchen key log is required!");
 
         kitchenKeyLog.setBorrowedEndDate(LocalDate.now());
         keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), KeyStatus.AVAILABLE);
     }
 
     @Override
-    public KitchenKeyLog getOpenKeyLog() {
-        return kitchenKeyLogRepository
-                .findAll()
+    public Optional<KitchenKeyLog> getOpenKeyLog() {
+        System.out.println(findAll());
+        System.out.println("watt" + findAll().stream().map(Map.Entry::getValue).filter(x -> x.getBorrowedEndDate() == null).findFirst());
+
+        return findAll()
                 .stream()
-                .filter(x -> x.getValue().getBorrowedEndDate() == null)
                 .map(Map.Entry::getValue)
-                .findFirst()
-                .orElseThrow(KitchenKeyLogException.NotFoundException::new);
+                .filter(x -> x.getBorrowedEndDate() == null)
+                .findFirst();
     }
 
     @Override
@@ -75,5 +79,13 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     @Override
     public List<Map.Entry<Integer, KitchenKeyLog>> findAll() {
         return kitchenKeyLogRepository.findAll();
+    }
+
+    @Override
+    public List<Map.Entry<Integer, KitchenKeyLog>> findAllByLatestStartDate() {
+        return kitchenKeyLogRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(x -> x.getValue().getBorrowedStartDate()))
+                .toList();
     }
 }
