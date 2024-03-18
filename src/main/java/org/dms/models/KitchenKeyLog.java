@@ -2,7 +2,10 @@ package org.dms.models;
 
 import org.dms.annotations.AutoIncrement;
 import org.dms.utils.ModelUtil;
+
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class KitchenKeyLog {
     @AutoIncrement
@@ -17,6 +20,7 @@ public class KitchenKeyLog {
         this.borrowedStartDate = borrowedStartDate;
         this.key = key;
         this.person = person;
+        this.borrowedEndDate = null;
     }
 
     public Key getKey() {
@@ -53,5 +57,24 @@ public class KitchenKeyLog {
 
     public void setBorrowedEndDate(LocalDate borrowedEndDate) {
         this.borrowedEndDate = borrowedEndDate;
+    }
+
+    @Override
+
+    public String toString() {
+        String borrowedEndDateStatus = "";
+        Optional<LocalDate> borrowedEndDate = Optional.ofNullable(getBorrowedEndDate());
+
+        if(borrowedEndDate.isEmpty())
+            borrowedEndDateStatus = "Key is still currently being borrowed";
+        else
+            borrowedEndDateStatus = borrowedEndDate.toString()
+                    ;
+        return STR."""
+                Person Borrowing : \{person.getName()}
+                Key Status : \{key.getKeyStatus()}
+                Borrowed Date: \{borrowedStartDate}
+                Borrowed End Date : \{borrowedEndDateStatus}
+                """;
     }
 }

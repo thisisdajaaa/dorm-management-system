@@ -17,4 +17,13 @@ public class RoomAssignment {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Start Date: \{startDate}
+                End Date : \{endDate}
+                Room: \{room.roomNumber()}
+                """;
+    }
 }

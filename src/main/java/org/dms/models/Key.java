@@ -35,4 +35,12 @@ public class Key {
     public void setPrimary(Boolean primary) {
         isPrimary = primary;
     }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Key Status : \{keyStatus}
+                Is Key Primary? : \{isPrimary}
+                """;
+    }
 }

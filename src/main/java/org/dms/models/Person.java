@@ -59,4 +59,14 @@ public class Person {
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
+
+    @Override
+    public String toString() {
+        return STR."""
+                Name: \{name}
+                Email: \{email}
+                Contact Number: \{contactNumber}
+                Role: \{role}
+                """;
+    }
 }
