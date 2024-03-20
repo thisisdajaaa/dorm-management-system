@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 @Component
 public class RoomAssignmentImpl implements IRoomAssignmentRepository {
     private final static Map<Integer, RoomAssignment> roomAssignMap = new HashMap<>();
@@ -26,5 +27,10 @@ public class RoomAssignmentImpl implements IRoomAssignmentRepository {
     @Override
     public List<Map.Entry<Integer, RoomAssignment>> findAll() {
         return roomAssignMap.entrySet().stream().toList();
+    }
+
+    @Override
+    public void remove(Integer id) {
+        roomAssignMap.remove(id);
     }
 }

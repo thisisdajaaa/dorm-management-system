@@ -6,10 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface IRoomAssignmentRepository {
-    void save(RoomAssignment roomAssignment);
-
-    Optional<RoomAssignment> findById(Integer id);
-
-    List<Map.Entry<Integer, RoomAssignment>> findAll();
+public interface IRoomAssignmentRepository extends  IBaseRepository<RoomAssignment>{
+    void remove(Integer roomAssignmentId);
 }

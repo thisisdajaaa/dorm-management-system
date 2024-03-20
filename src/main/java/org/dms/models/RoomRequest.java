@@ -15,7 +15,8 @@ public class RoomRequest {
 
     private RoomAssignment roomAssignment;
 
-    public RoomRequest(LocalDate requestDate, RoomAssignment roomAssignment, RequestType requestType)
+    public RoomRequest(LocalDate requestDate, RoomAssignment roomAssignment,
+                       RequestType requestType)
     {
         ModelUtil.handleAutoIncrement(this);
         this.requestDate = requestDate;

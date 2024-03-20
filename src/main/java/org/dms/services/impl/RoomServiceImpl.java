@@ -42,4 +42,8 @@ public class RoomServiceImpl implements IRoomService {
                 .filter(r -> r.getStatus() == RoomStatus.AVAILABLE)
                 .findAny();
     }
+
+    public void makeRoomAvailable(Room room){
+        room.setStatus(RoomStatus.AVAILABLE);
+    }
 }

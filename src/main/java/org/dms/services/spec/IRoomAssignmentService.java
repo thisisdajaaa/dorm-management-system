@@ -10,4 +10,5 @@ public interface IRoomAssignmentService {
     void addToRepository(RoomAssignment roomAssignment);
     RoomAssignment findById(Integer id);
     List<Map.Entry<Integer, RoomAssignment>> findAll();
+    void removeFromRepository(RoomAssignment roomAssignment);
 }
