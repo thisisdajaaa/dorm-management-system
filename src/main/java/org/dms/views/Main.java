@@ -22,10 +22,7 @@ public class Main {
         System.out.println("Welcome to the Dorm Management System by DOM!");
 
         while (true) {
-            if (authenticationService.getCurrentLoggedInUser().isPresent()) {
-                showAuthenticatedOptions();
-                break;
-            } else {
+
                 System.out.println("\nSelect an option:");
                 System.out.println("1. Login");
                 System.out.println("2. Register");
@@ -50,7 +47,7 @@ public class Main {
                 } else {
                     System.out.println("Invalid option provided. Please choose another option.");
                 }
-            }
+
         }
     }
 
