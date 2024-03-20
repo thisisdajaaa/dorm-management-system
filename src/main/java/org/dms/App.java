@@ -12,6 +12,7 @@ import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 import org.dms.services.spec.*;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,10 @@ public class App {
         // Example usage of adding kitchen key log
         kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(), 6, 3);
         System.out.println(keyService.findAll().stream().map(x ->
-               x.getValue().getKeyStatus()).toList().toString());
+                x.getValue().getKeyStatus()).toList().toString());
 
-         System.out.println(personService.findAll());
-         System.out.println(kitchenKeyLogService.findAll().stream().map(x ->
+        System.out.println(personService.findAll());
+        System.out.println(kitchenKeyLogService.findAll().stream().map(x ->
                 x.getValue()).toList());
 
         // Example usage of marking kitchen key log complete
@@ -67,27 +68,44 @@ public class App {
                 .map(Map.Entry::getValue).toList();
 
         allRoomAssignments.forEach(roomAssignment -> {
-                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                            roomAssignment.getRoom().getRoomNumber(),
-                            roomAssignment.getPerson().getName()));
-                });
+            System.out.println(String.format("..{roomNo: %d, person: %s}..",
+                    roomAssignment.getRoom().getRoomNumber(),
+                    roomAssignment.getPerson().getName()));
+        });
 
         //leave request
         RoomRequest roomRequest = new RoomRequest(LocalDate.now(),
-                allRoomAssignments.get(0), RequestType.LEAVE);
+                allRoomAssignments.get(1), RequestType.LEAVE);
+        roomRequestService.save(roomRequest);
         roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
-
-
-        System.out.println("After leaving room");
+        System.out.println("After leaving roomassignments");
         roomAssignmentService
                 .findAll()
                 .stream()
                 .map(Map.Entry::getValue)
                 .forEach(roomAssignment -> {
                     System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                    roomAssignment.getRoom().getRoomNumber(),
-                    roomAssignment.getPerson().getName()));
-        });
+                            roomAssignment.getRoom().getRoomNumber(),
+                            roomAssignment.getPerson().getName()));
+                });
+
+
+        //change room request
+        RoomRequest request1 = new RoomRequest(LocalDate.now(),
+                allRoomAssignments.get(0), RequestType.CHANGE);
+        roomRequestService.save(request1);
+        roomRequestService.acknowledgeRoomRequest(request1.getId());
+        System.out.println("After changing roomassignments");
+        roomAssignmentService
+                .findAll()
+                .stream()
+                .map(Map.Entry::getValue)
+                .forEach(roomAssignment -> {
+                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
+                            roomAssignment.getRoom().getRoomNumber(),
+                            roomAssignment.getPerson().getName()));
+                });
+
 
         // This is to test the reportStolenKey functionality
         // System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
@@ -99,7 +117,7 @@ public class App {
         // authenticationService.login("naruto@example.com", "test12345");
 
         // System.out.println("user: " + personService.findById(3));
-       //  System.out.println("user: " + personService.findAll());
+        //  System.out.println("user: " + personService.findAll());
 
         //This is to test the addIssueReport functionality
         Optional<RoomAssignment> roomAssignment = roomAssignmentService.findAll()
@@ -112,12 +130,4 @@ public class App {
 //        issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
 //        System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
     }
-
-    private static void roomChangeRequest(IRoomAssignmentService roomAssignmentService,
-        IRoomRequestService roomRequestService) {
-        // RoomAssignment roomAssignment = roomAssignmentService.findAll().get(0).getValue();
-        // RoomRequest roomRequest = new RoomRequest(LocalDate.now(), roomAssignment, RequestType.CHANGE);
-        // RoomRequest roomReuqest = roomRequestService.findById(roomRequest.getId());
-    }
-
 }
