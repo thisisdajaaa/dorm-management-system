@@ -29,6 +29,9 @@ public class RoomRequestServiceImpl implements IRoomRequestService {
     @Override
     public void acknowledgeRoomRequest(Integer roomRequestId) {
         RoomRequest roomRequest = findById(roomRequestId);
+
+        if (roomRequest == null) return;
+
         if(roomRequest.getRequestType() == RequestType.CHANGE) {
             Optional<Room> availableRoom = roomService.checkInRoom();
             if(availableRoom.isPresent()) {
