@@ -37,8 +37,8 @@ public class App {
         IAuthenticationService authenticationService = Injector.getService(IAuthenticationService.class);
 
         // Example usage
-        // System.out.println(keyService.findAll());
-        // System.out.println(personService.findAll());
+        System.out.println(keyService.findAll());
+        System.out.println(personService.findAll());
         // Example usage
         System.out.println("Key List: " + keyService.findAll());
         System.out.println(personService.findAll());
@@ -55,69 +55,30 @@ public class App {
 
         // Example usage of marking kitchen key log complete
         kitchenKeyLogService.markKitchenKeyLogAsComplete();
-
         kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(), 6, 3);
 
         // Example usage of kitchen key log sort by latest start date
         System.out.println(kitchenKeyLogService.findAllByLatestStartDate());
-        //Example of room usage
-        System.out.println("room assignment size ---> " + roomAssignmentService.findAll().size());
+        System.out.println("BEFORE MAKING ROOM CHANGE/LEAVE REQUEST (ROOM ASSIGNMENT) ====================\n" + roomAssignmentService.findAll());
         List<RoomAssignment> allRoomAssignments = roomAssignmentService
                 .findAll()
                 .stream()
                 .map(Map.Entry::getValue).toList();
-
-        allRoomAssignments.forEach(roomAssignment -> {
-            System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                    roomAssignment.getRoom().getRoomNumber(),
-                    roomAssignment.getPerson().getName()));
-        });
-
         //leave request
-        RoomRequest roomRequest = new RoomRequest(LocalDate.now(),
-                allRoomAssignments.get(1), RequestType.LEAVE);
-        roomRequestService.save(roomRequest);
-        roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
-        System.out.println("After leaving roomassignments");
-        roomAssignmentService
-                .findAll()
-                .stream()
-                .map(Map.Entry::getValue)
-                .forEach(roomAssignment -> {
-                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                            roomAssignment.getRoom().getRoomNumber(),
-                            roomAssignment.getPerson().getName()));
-                });
-
-
+        exampleLeaveRoomRequest(allRoomAssignments, roomRequestService, roomAssignmentService);
         //change room request
-        RoomRequest request1 = new RoomRequest(LocalDate.now(),
-                allRoomAssignments.get(0), RequestType.CHANGE);
-        roomRequestService.save(request1);
-        roomRequestService.acknowledgeRoomRequest(request1.getId());
-        System.out.println("After changing roomassignments");
-        roomAssignmentService
-                .findAll()
-                .stream()
-                .map(Map.Entry::getValue)
-                .forEach(roomAssignment -> {
-                    System.out.println(String.format("..{roomNo: %d, person: %s}..",
-                            roomAssignment.getRoom().getRoomNumber(),
-                            roomAssignment.getPerson().getName()));
-                });
-
-
+        exampleChangeRoomRequest(allRoomAssignments, roomRequestService, roomAssignmentService);
         // This is to test the reportStolenKey functionality
-        // System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
-        // keyService.reportStolenKey();
-        // System.out.println("AFTER REPORT====================\n" + keyService.findAll());
+         System.out.println("BEFORE REPORT ====================\n" + keyService.findAll());
+         keyService.reportStolenKey();
+         System.out.println("AFTER REPORT====================\n" + keyService.findAll());
 
-        // Test login functionality
-        // System.out.println("LOGGGINN");
-        // authenticationService.login("naruto@example.com", "test12345");
+         // Test login functionality
+         System.out.println("LOGGGINN");
+         authenticationService.login("naruto@example.com", "test12345");
 
-        // System.out.println("user: " + personService.findById(3));
-        //  System.out.println("user: " + personService.findAll());
+         System.out.println("user: " + personService.findById(3));
+         System.out.println("user: " + personService.findAll());
 
         //This is to test the addIssueReport functionality
         Optional<RoomAssignment> roomAssignment = roomAssignmentService.findAll()
@@ -125,9 +86,25 @@ public class App {
                 .map(Map.Entry::getValue)
                 .findFirst();
 
-//        System.out.println("Here are the Issue Reports Before : " + issueReportService.findAll());
-//        issueReportService.addIssueReport("Sink clogged", LocalDate.now(), Severity.THREE,roomAssignment.get());
-//        issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
-//        System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
+        System.out.println("Here are the Issue Reports Before : " + issueReportService.findAll());
+        issueReportService.addIssueReport("Sink clogged", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
+    }
+
+    private static void exampleLeaveRoomRequest(List<RoomAssignment> allRoomAssignments, IRoomRequestService roomRequestService, IRoomAssignmentService roomAssignmentService) {
+        RoomRequest roomRequest = new RoomRequest(LocalDate.now(),
+                allRoomAssignments.get(1), RequestType.LEAVE);
+        roomRequestService.save(roomRequest);
+        roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
+        System.out.println("AFTER MAKING ROOM LEAVE REQUEST (ROOM ASSIGNMENT) ====================\n" + roomAssignmentService.findAll());
+    }
+
+    private static void exampleChangeRoomRequest(List<RoomAssignment> allRoomAssignments, IRoomRequestService roomRequestService, IRoomAssignmentService roomAssignmentService) {
+        RoomRequest request1 = new RoomRequest(LocalDate.now(),
+                allRoomAssignments.get(0), RequestType.CHANGE);
+        roomRequestService.save(request1);
+        roomRequestService.acknowledgeRoomRequest(request1.getId());
+        System.out.println("AFTER MAKING ROOM CHANGE REQUEST (ROOM ASSIGNMENT) ====================\n" + roomAssignmentService.findAll());
     }
 }

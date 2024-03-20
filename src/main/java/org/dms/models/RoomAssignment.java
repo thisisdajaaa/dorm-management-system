@@ -42,6 +42,7 @@ public class RoomAssignment {
                 Start Date: \{startDate}
                 End Date : \{endDate}
                 Room: \{room.getRoomNumber()}
+                Name: \{this.person.getName()}
                 """;
     }
 }
