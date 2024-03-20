@@ -5,12 +5,16 @@ import org.dms.configs.Seeder;
 import org.dms.constants.RequestType;
 import org.dms.models.RoomAssignment;
 import org.dms.models.RoomRequest;
+import org.dms.constants.Severity;
+import org.dms.models.RoomAssignment;
 import org.dms.services.spec.IIssueReportService;
 import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 import org.dms.services.spec.*;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.Optional;
 
 public class App {
     public static void main(String[] args) {
@@ -70,15 +74,23 @@ public class App {
         keyService.reportStolenKey();
         System.out.println("AFTER REPORT====================\n" + keyService.findAll());
 
-        // make a room change request
-        roomChangeRequest(roomAssignmentService, roomRequestService);
-
         // Test login functionality
         System.out.println("LOGGGINN");
         authenticationService.login("naruto@example.com", "test12345");
 
         System.out.println("user: " + personService.findById(3));
         System.out.println("user: " + personService.findAll());
+
+        //This is to test the addIssueReport functionality
+        Optional<RoomAssignment> roomAssignment = roomAssignmentService.findAll()
+                .stream()
+                .map(Map.Entry::getValue)
+                .findFirst();
+
+        System.out.println("Here are the Issue Reports Before : " + issueReportService.findAll());
+        issueReportService.addIssueReport("Sink clogged", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
+        System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
     }
 
     private static void roomChangeRequest(IRoomAssignmentService roomAssignmentService,
