@@ -16,8 +16,18 @@ public class KeyServiceImpl implements IKeyService {
     @Autowired
     private IKeyRepository keyRepository;
     @Override
-    public void addKey(boolean isPrimary) {
-        Key newKey = new Key(isPrimary);
+    public void addKey() {
+        Key newKey;
+        //Check if there exists a Primary Key
+        List<Key> keys = findAll().stream().
+                filter(mapEntry -> mapEntry.getValue().getPrimary())
+                .map(Map.Entry::getValue).toList();
+        
+        if(keys.isEmpty())
+            newKey = new Key(true);
+        else
+            newKey = new Key(false);
+
         keyRepository.save(newKey);
     }
 
