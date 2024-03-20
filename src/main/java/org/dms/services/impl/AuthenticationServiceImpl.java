@@ -11,6 +11,7 @@ import org.dms.services.spec.IPersonService;
 import org.dms.utils.StringUtil;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class AuthenticationServiceImpl implements IAuthenticationService {
@@ -32,22 +33,22 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         person.setLoggedIn(true);
     }
 
+    @Override
     public void logout() {
         if (!hasLoggedInUsersAlready()) throw new AuthenticationException.NotAllowedException("No users is logged in!");
 
-        Person person = getCurrentLoggedInUser();
+        Person person = getCurrentLoggedInUser().orElseThrow(() -> new AuthenticationException.NotAllowedException("No user is logged in!"));;
         person.setLoggedIn(false);
     }
 
     @Override
-    public Person getCurrentLoggedInUser() {
+    public Optional<Person> getCurrentLoggedInUser() {
         return personService
                 .findAll()
                 .stream()
                 .filter(x -> x.getValue().getLoggedIn())
                 .findAny()
-                .map(Map.Entry::getValue)
-                .orElseThrow(() -> new AuthenticationException.NotAllowedException("No user is logged in!"));
+                .map(Map.Entry::getValue);
     }
 
     private boolean isValidCredentials(String email, String password) {

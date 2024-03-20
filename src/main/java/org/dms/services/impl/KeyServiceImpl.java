@@ -15,15 +15,15 @@ import java.util.Optional;
 public class KeyServiceImpl implements IKeyService {
     @Autowired
     private IKeyRepository keyRepository;
+
     @Override
     public void addKey() {
         Key newKey;
-        //Check if there exists a Primary Key
-        List<Key> keys = findAll().stream().
-                filter(mapEntry -> mapEntry.getValue().getPrimary())
+        // Check if there exists a Primary Key
+        List<Key> keys = findAll().stream().filter(mapEntry -> mapEntry.getValue().getPrimary())
                 .map(Map.Entry::getValue).toList();
-        
-        if(keys.isEmpty())
+
+        if (keys.isEmpty())
             newKey = new Key(true);
         else
             newKey = new Key(false);
@@ -69,7 +69,7 @@ public class KeyServiceImpl implements IKeyService {
         primaryKey.setPrimary(false);
         primaryKey.setKeyStatus(KeyStatus.LOST);
 
-        //Make another key Primary since the Primary Key was reported lost
+        // Make another key Primary since the Primary Key was reported lost
         Optional<Key> secondaryKeyToPrimary = findAll().stream()
                 .filter(key -> key.getValue().getKeyStatus() == KeyStatus.AVAILABLE)
                 .map(Map.Entry::getValue)
