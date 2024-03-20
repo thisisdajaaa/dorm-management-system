@@ -4,6 +4,7 @@ import org.dms.annotations.AutoIncrement;
 import org.dms.utils.ModelUtil;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static java.lang.StringTemplate.STR;
 
@@ -14,6 +15,7 @@ public class RoomAssignment {
     private LocalDate endDate;
     private Room room;
     private Person person;
+    List<RoomRequest> roomRequests;
 
     public RoomAssignment(LocalDate startDate, LocalDate endDate, Person person, Room room) {
         ModelUtil.handleAutoIncrement(this);
@@ -40,6 +42,7 @@ public class RoomAssignment {
                 Start Date: \{startDate}
                 End Date : \{endDate}
                 Room: \{room.getRoomNumber()}
+                Name: \{this.person.getName()}
                 """;
     }
 }

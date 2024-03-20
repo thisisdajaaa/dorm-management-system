@@ -15,4 +15,6 @@ public interface IRoomService {
     List<Map.Entry<Integer, Room>> findAll();
 
     Optional<Room> checkInRoom();
+
+    void makeRoomAvailable(Room room);
 }

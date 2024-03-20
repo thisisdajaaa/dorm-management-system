@@ -7,10 +7,7 @@ import org.dms.models.Person;
 import org.dms.constants.Role;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
-import org.dms.services.spec.IKeyService;
-import org.dms.services.spec.IPersonService;
-import org.dms.services.spec.IRoomAssignmentService;
-import org.dms.services.spec.IRoomService;
+import org.dms.services.spec.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +24,9 @@ public class Seeder {
     private IRoomService roomService;
     @Autowired
     private IRoomAssignmentService roomAssignmentService;
+
+    @Autowired
+    private IRoomRequestService roomRequestService;
 
     private final static String DEFAULT_PASSWORD = "test12345";
 
