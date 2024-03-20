@@ -83,7 +83,7 @@ public class Seeder {
     }
 
     public void seedKeys() {
-        keyService.addKey(true);
-        keyService.addKey(false);
+        keyService.addKey();
+        keyService.addKey();
     }
 }

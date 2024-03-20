@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IKeyService {
-    void addKey(boolean isPrimary);
+    void addKey();
 
     Key findById(Integer id);
 
