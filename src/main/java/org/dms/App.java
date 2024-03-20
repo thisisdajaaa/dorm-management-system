@@ -13,6 +13,8 @@ import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.services.spec.IPersonService;
 import org.dms.services.spec.*;
 
+import org.dms.views.Main;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +92,9 @@ public class App {
         issueReportService.addIssueReport("Sink clogged", LocalDate.now(), Severity.THREE,roomAssignment.get());
         issueReportService.addIssueReport("Heater not working", LocalDate.now(), Severity.THREE,roomAssignment.get());
         System.out.println("Here are the Issue Reports After : " + issueReportService.findAll());
+        Main main = new Main();
+        main.executeView();
+
     }
 
     private static void exampleLeaveRoomRequest(List<RoomAssignment> allRoomAssignments, IRoomRequestService roomRequestService, IRoomAssignmentService roomAssignmentService) {

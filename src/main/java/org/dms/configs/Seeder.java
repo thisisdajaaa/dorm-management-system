@@ -55,7 +55,7 @@ public class Seeder {
                                 LocalDate.of(2024, 1, 1),
                                 person, room);
                         roomAssignmentService.addToRepository(roomAssignment);
-                        System.out.println("ROOM ASSIGNMENT ADD.........");
+                        // System.out.println("ROOM ASSIGNMENT ADD.........");
                     }
                 });
     }
@@ -83,7 +83,7 @@ public class Seeder {
     }
 
     public void seedKeys() {
-        keyService.addKey(true);
-        keyService.addKey(false);
+        keyService.addKey();
+        keyService.addKey();
     }
 }
