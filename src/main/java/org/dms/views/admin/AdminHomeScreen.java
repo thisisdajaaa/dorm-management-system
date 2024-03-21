@@ -2,13 +2,15 @@ package org.dms.views.admin;
 
 import org.dms.configs.Injector;
 import org.dms.services.spec.IAuthenticationService;
+import org.dms.views.Main;
+
 import java.util.Scanner;
 
-public class HomeScreen {
+public class AdminHomeScreen {
     private final Scanner scanner;
     private final IAuthenticationService authenticationService;
 
-    public HomeScreen(Scanner scanner) {
+    public AdminHomeScreen(Scanner scanner) {
         this.authenticationService = Injector.getService(IAuthenticationService.class);
         this.scanner = scanner;
     }
@@ -38,6 +40,8 @@ public class HomeScreen {
                     System.out.println("Logging out...");
                     authenticationService.logout();
                     running = false;
+                    Main main = new Main();
+                    main.executeView();
                     break;
                 default:
                     System.out.println("Invalid option provided. Please choose another option.");

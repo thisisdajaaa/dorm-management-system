@@ -1,4 +1,4 @@
-package org.dms.views.admin;
+package org.dms.views.student;
 
 import org.dms.configs.Injector;
 import org.dms.services.spec.IAuthenticationService;
@@ -6,11 +6,11 @@ import org.dms.views.Main;
 
 import java.util.Scanner;
 
-public class RoomManagementScreen {
+public class StudentHomeScreen {
     private final Scanner scanner;
     private final IAuthenticationService authenticationService;
 
-    public RoomManagementScreen(Scanner scanner) {
+    public StudentHomeScreen(Scanner scanner) {
         this.authenticationService = Injector.getService(IAuthenticationService.class);
         this.scanner = scanner;
     }
@@ -19,9 +19,9 @@ public class RoomManagementScreen {
         boolean running = true;
 
         while (running) {
-            System.out.println("Room Management:");
-            System.out.println("1. Assign room");
-            System.out.println("2. Get available rooms");
+            System.out.println("\nAuthenticated student user menu:");
+            System.out.println("1. Kitchen key");
+            System.out.println("2. Room");
             System.out.println("3. Logout");
 
             int option = scanner.nextInt();
@@ -29,9 +29,11 @@ public class RoomManagementScreen {
 
             switch (option) {
                 case 1:
+                    new KitchenKeyScreen(scanner).showOptions();
                     running = false;
                     break;
                 case 2:
+                    new RoomScreen(scanner).showOptions();
                     running = false;
                     break;
                 case 3:
