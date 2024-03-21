@@ -71,6 +71,11 @@ public class KeyManagementScreen {
     private void handleViewBorrowingHistory() {
         System.out.println("Borrow History Logs:");
 
+        if (kitchenKeyLogService.findAll().isEmpty()) {
+            System.out.println("No result...");
+            return;
+        }
+
         kitchenKeyLogService.findAllByLatestStartDate().forEach(System.out::println);
     }
 
@@ -82,6 +87,11 @@ public class KeyManagementScreen {
 
     private void handleViewKeys() {
         System.out.println("Kitchen Keys:");
+
+        if (keyService.findAll().isEmpty()) {
+            System.out.println("No result...");
+            return;
+        }
 
         keyService.findAll().forEach(System.out::println);
     }

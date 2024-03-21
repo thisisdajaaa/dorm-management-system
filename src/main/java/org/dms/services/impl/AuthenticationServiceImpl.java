@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     @Override
     public void login(String email, String password) {
-        // if (hasLoggedInUsersAlready()) throw new AuthenticationException.NotAllowedException();
+        if (hasLoggedInUsersAlready()) throw new AuthenticationException.NotAllowedException();
         if (!isValidCredentials(email, password)) throw new PersonException.BadRequestException();
 
         Person person = personService.getPersonByEmailAndPassword(email, password);
