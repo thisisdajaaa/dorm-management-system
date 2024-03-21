@@ -12,7 +12,6 @@ public class App {
         Seeder seeder = Injector.getService(Seeder.class);
         seeder.run();
 
-
         Main main = new Main();
         main.executeView();
     }
