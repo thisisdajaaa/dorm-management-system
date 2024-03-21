@@ -35,6 +35,7 @@ public class RoomScreen {
     }
         public void showRoomScreenOptions() {
             boolean running = true;
+
             System.out.println("Please select an option:");
             while (running) {
                 System.out.println("Room Management:");
@@ -75,9 +76,9 @@ public class RoomScreen {
                         default:
                             System.out.println("Invalid option provided. Please choose another option.");
                             break;
-                    }
                 }
             }
+        }
 
         public void createIssueReport() {
             System.out.println("Please describe the issue: ");
@@ -142,4 +143,4 @@ public class RoomScreen {
                     return Severity.ONE;
             }
         }
-    }
+}
