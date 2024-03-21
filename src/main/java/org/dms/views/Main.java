@@ -4,7 +4,8 @@ import org.dms.configs.Injector;
 import org.dms.constants.Role;
 import org.dms.models.Person;
 import org.dms.services.spec.IAuthenticationService;
-import org.dms.views.admin.HomeScreen;
+import org.dms.views.admin.AdminHomeScreen;
+import org.dms.views.student.StudentHomeScreen;
 
 import java.util.Scanner;
 
@@ -65,7 +66,7 @@ public class Main {
             }
 
             return true;
-        } catch (Exception _) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -89,8 +90,12 @@ public class Main {
 
     private void showAuthenticatedOptions() {
         if (currentLoggedInPerson.getRole().equals(Role.ADMIN)) {
-            HomeScreen homeScreen = new HomeScreen(scanner);
-            homeScreen.showOptions();
+            AdminHomeScreen adminHomeScreen = new AdminHomeScreen(scanner);
+            adminHomeScreen.showOptions();
+            return;
         }
+
+        StudentHomeScreen studentHomeScreen = new StudentHomeScreen(scanner);
+        studentHomeScreen.showOptions();
     }
 }

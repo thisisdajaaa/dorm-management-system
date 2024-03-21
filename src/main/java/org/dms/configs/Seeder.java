@@ -3,6 +3,7 @@ package org.dms.configs;
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
 import org.dms.constants.RequestType;
+import org.dms.constants.Role;
 import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
 import org.dms.constants.Role;
@@ -82,9 +83,9 @@ public class Seeder {
     public void seedUsers() {
         personService.addPerson("Admin1", "admin1@example.com", "1234567890", DEFAULT_PASSWORD, Role.ADMIN);
         personService.addPerson("Admin2", "admin2@example.com", "0987654321", DEFAULT_PASSWORD, Role.ADMIN);
-        personService.addPerson("Naruto", "naruto@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
-        personService.addPerson("Opu", "narutoz1@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
-        personService.addPerson("Marc", "narutozxc@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
+        personService.addPerson("Naruto", "naruto@uzumaki.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
+        personService.addPerson("Opu", "minato@namikaze.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
+        personService.addPerson("Marc", "student1@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
     }
 
     private void seedRoomRequest() {

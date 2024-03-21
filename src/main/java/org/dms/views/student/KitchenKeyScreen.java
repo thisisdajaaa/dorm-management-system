@@ -1,20 +1,25 @@
-package org.dms.views.admin;
+package org.dms.views.student;
 
 import org.dms.configs.Injector;
+import org.dms.constants.KeyStatus;
+import org.dms.models.Key;
+import org.dms.models.Person;
 import org.dms.services.spec.IAuthenticationService;
 import org.dms.services.spec.IKeyService;
 import org.dms.services.spec.IKitchenKeyLogService;
 import org.dms.views.Main;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
-public class KeyManagementScreen {
+public class KitchenKeyScreen {
     private final Scanner scanner;
     private final IAuthenticationService authenticationService;
     private final IKeyService keyService;
     private final IKitchenKeyLogService kitchenKeyLogService;
+    private Person currentLoggedInPerson;
 
-    public KeyManagementScreen(Scanner scanner) {
+    public KitchenKeyScreen(Scanner scanner) {
         this.authenticationService = Injector.getService(IAuthenticationService.class);
         this.keyService = Injector.getService(IKeyService.class);
         this.kitchenKeyLogService = Injector.getService(IKitchenKeyLogService.class);
@@ -24,12 +29,17 @@ public class KeyManagementScreen {
     public void showOptions() {
         boolean running = true;
 
+        authenticationService.getCurrentLoggedInUser().ifPresentOrElse(
+                person -> currentLoggedInPerson = person,
+                () -> System.out.println("User needs to be logged in!")
+        );
+
         while (running) {
             System.out.println("Key Management:");
             System.out.println("1. View current borrower");
-            System.out.println("2. View borrowing history");
-            System.out.println("3. View list of keys");
-            System.out.println("4. Add key");
+            System.out.println("2. Get key");
+            System.out.println("3. Report lost key");
+            System.out.println("4. Change key status to available");
             System.out.println("5. Logout");
 
             int option = scanner.nextInt();
@@ -40,13 +50,13 @@ public class KeyManagementScreen {
                     handleViewCurrentBorrower();
                     break;
                 case 2:
-                    handleViewBorrowingHistory();
+                    handleGetKey();
                     break;
                 case 3:
-                    handleViewKeys();
+                    handleReportLostKey();
                     break;
                 case 4:
-                    handleAddKey();
+                    handleChangeKeyStatusToAvailable();
                     break;
                 case 5:
                     System.out.println("Logging out...");
@@ -71,31 +81,24 @@ public class KeyManagementScreen {
         );
     }
 
-    private void handleViewBorrowingHistory() {
-        System.out.println("Borrow History Logs:");
+    private void handleGetKey() {
+        Key primaryKey = keyService.getPrimaryKey();
 
-        if (kitchenKeyLogService.findAll().isEmpty()) {
-            System.out.println("No result...");
-            return;
-        }
+        kitchenKeyLogService.addKitchenKeyLog(LocalDate.now(), primaryKey.getId(), currentLoggedInPerson.getId());
 
-        kitchenKeyLogService.findAllByLatestStartDate().forEach(System.out::println);
+        System.out.println("Successfully borrowed the kitchen key!");
     }
 
-    private void handleAddKey() {
-        keyService.addKey();
+    private void handleReportLostKey() {
+        keyService.reportStolenKey();
+        kitchenKeyLogService.markKitchenKeyLogAsComplete(KeyStatus.LOST);
 
-        System.out.println("Successfully added a duplicate key!");
+        System.out.println("Successfully reported that the kitchen key is lost!");
     }
 
-    private void handleViewKeys() {
-        System.out.println("Kitchen Keys:");
+    private void handleChangeKeyStatusToAvailable() {
+        kitchenKeyLogService.markKitchenKeyLogAsComplete(KeyStatus.AVAILABLE);
 
-        if (keyService.findAll().isEmpty()) {
-            System.out.println("No result...");
-            return;
-        }
-
-        keyService.findAll().forEach(System.out::println);
+        System.out.println("Successfully set the kitchen key status to available!");
     }
 }

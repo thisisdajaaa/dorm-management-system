@@ -1,5 +1,6 @@
 package org.dms.services.spec;
 
+import org.dms.constants.KeyStatus;
 import org.dms.models.KitchenKeyLog;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.util.Optional;
 public interface IKitchenKeyLogService {
     void addKitchenKeyLog(LocalDate borrowedStartDate, Integer keyId, Integer personId);
 
-    void markKitchenKeyLogAsComplete();
+    void markKitchenKeyLogAsComplete(KeyStatus keyStatus);
 
     KitchenKeyLog findById(Integer id);
 

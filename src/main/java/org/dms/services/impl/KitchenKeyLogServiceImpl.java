@@ -37,10 +37,13 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
         Person person = personService.findById(personId);
         Optional<KitchenKeyLog> keyLog = getOpenKeyLog();
 
-        if (!findAll().isEmpty() && keyLog.isPresent())throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
+        if (!findAll().isEmpty() && keyLog.isPresent())
+            throw new KitchenKeyLogException.NotAllowedException("There is still an open kitchen key session!");
         if (!keyService.isPrimaryKey(key.getId())) throw new KeyException.PrimaryException();
-        if (key.getKeyStatus() != KeyStatus.AVAILABLE) throw new KitchenKeyLogException.NotAllowedException("Key should be available!");
-        if (!person.getRole().equals(Role.STUDENT)) throw new KitchenKeyLogException.NotAllowedException("Person must be a student!");
+        if (key.getKeyStatus() != KeyStatus.AVAILABLE)
+            throw new KitchenKeyLogException.NotAllowedException("Key should be available!");
+        if (!person.getRole().equals(Role.STUDENT))
+            throw new KitchenKeyLogException.NotAllowedException("Person must be a student!");
 
         keyService.setKeyStatus(key.getId(), KeyStatus.BORROWED);
 
@@ -50,11 +53,11 @@ public class KitchenKeyLogServiceImpl implements IKitchenKeyLogService {
     }
 
     @Override
-    public void markKitchenKeyLogAsComplete() {
+    public void markKitchenKeyLogAsComplete(KeyStatus keyStatus) {
         KitchenKeyLog kitchenKeyLog = getOpenKeyLog().orElseThrow(KitchenKeyLogException.NotFoundException::new);
 
         kitchenKeyLog.setBorrowedEndDate(LocalDate.now());
-        keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), KeyStatus.AVAILABLE);
+        keyService.setKeyStatus(kitchenKeyLog.getKey().getId(), keyStatus);
     }
 
     @Override

@@ -6,8 +6,8 @@ import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
-import org.dms.models.RoomRequest;
 import org.dms.services.spec.IAuthenticationService;
+import org.dms.views.Main;
 import org.dms.services.spec.IRoomAssignmentService;
 import org.dms.services.spec.IRoomRequestService;
 import org.dms.services.spec.IRoomService;
@@ -51,10 +51,10 @@ public class RoomManagementScreen {
 
             switch (option) {
                 case 1:
-                    showRooms();
+                    running = false;
                     break;
                 case 2:
-                    makeNewRoomAssignment();
+                    running = false;
                     break;
                 case 3:
                     showRoomAssignments();
@@ -72,6 +72,8 @@ public class RoomManagementScreen {
                     System.out.println("Logging out...");
                     authenticationService.logout();
                     running = false;
+                    Main main = new Main();
+                    main.executeView();
                     break;
                 default:
                     System.out.println("Invalid option provided. Please choose another option.");
