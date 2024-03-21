@@ -16,9 +16,6 @@ public class App {
         seeder.run();
 
         Main main = new Main();
-       // main.executeView();
-        Scanner scanner = new Scanner(System.in);
-        RoomScreen roomScreen = new RoomScreen(scanner);
-        roomScreen.showRoomScreenOptions();
+        main.executeView();
     }
 }
