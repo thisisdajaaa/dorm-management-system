@@ -2,6 +2,7 @@ package org.dms.views.admin;
 
 import org.dms.configs.Injector;
 import org.dms.services.spec.IAuthenticationService;
+import org.dms.views.Main;
 
 import java.util.Scanner;
 
@@ -37,6 +38,8 @@ public class RoomManagementScreen {
                     System.out.println("Logging out...");
                     authenticationService.logout();
                     running = false;
+                    Main main = new Main();
+                    main.executeView();
                     break;
                 default:
                     System.out.println("Invalid option provided. Please choose another option.");

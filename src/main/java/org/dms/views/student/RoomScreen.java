@@ -11,21 +11,22 @@ import org.dms.services.spec.IAuthenticationService;
 import org.dms.services.spec.IIssueReportService;
 import org.dms.services.spec.IRoomAssignmentService;
 import org.dms.services.spec.IRoomRequestService;
+import org.dms.views.Main;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class RoomScreen{
+public class RoomScreen {
     private final IAuthenticationService authenticationService;
     private final IRoomAssignmentService roomAssignmentService;
     private final IIssueReportService issueReportService;
     private final IRoomRequestService roomRequestService;
     private final Scanner scanner;
     private Person currentLoggedInPerson;
-    public RoomScreen(Scanner scanner)
-    {
+
+    public RoomScreen(Scanner scanner) {
         this.scanner = scanner;
         this.authenticationService = Injector.getService(IAuthenticationService.class);
         this.roomAssignmentService = Injector.getService(IRoomAssignmentService.class);
@@ -33,27 +34,24 @@ public class RoomScreen{
         this.roomRequestService = Injector.getService(IRoomRequestService.class);
     }
 
-    public void showRoomScreenOptions()
-    {
+    public void showRoomScreenOptions() {
         boolean running = true;
 
         System.out.println("Please select an option:");
-        while(running)
-        {
+        while (running) {
             System.out.println("1. Report Room Issues");
             System.out.println("2. Request To Change Room");
             System.out.println("3. Leave Room");
+            System.out.println("4. Logout");
 
             int option = scanner.nextInt();
             scanner.nextLine();
 
             authenticationService.getCurrentLoggedInUser().ifPresentOrElse(
                     person -> currentLoggedInPerson = person,
-                    () -> System.out.println("User needs to be logged in!")
-            );
+                    () -> System.out.println("User needs to be logged in!"));
 
-            switch(option)
-            {
+            switch (option) {
                 case 1:
                     createIssueReport();
                     System.out.println("Successfully Created Issue Report!");
@@ -64,14 +62,20 @@ public class RoomScreen{
                 case 3:
                     // leaveRoomRequest();
                     break;
+                case 4:
+                    System.out.println("Logging out...");
+                    authenticationService.logout();
+                    running = false;
+                    Main main = new Main();
+                    main.executeView();
+                    break;
                 default:
                     System.out.println("Invalid option provided. Please choose another option");
             }
         }
     }
 
-    public void createIssueReport()
-    {
+    public void createIssueReport() {
         System.out.println("Please describe the issue: ");
         String description = scanner.nextLine();
         System.out.println("Please input the severity of the issue (1-5): ");
@@ -80,38 +84,33 @@ public class RoomScreen{
 
         Optional<RoomAssignment> roomAssignmentOfPerson = fetchRoomAssignment();
 
-        if(roomAssignmentOfPerson.isPresent())
-        {
-            IssueReport issueReport = new IssueReport(description,LocalDate.now(), severity, roomAssignmentOfPerson.get());issueReportService.save(issueReport);
-        }
-        else {
+        if (roomAssignmentOfPerson.isPresent()) {
+            IssueReport issueReport = new IssueReport(description, LocalDate.now(), severity,
+                    roomAssignmentOfPerson.get());
+            issueReportService.save(issueReport);
+        } else {
             System.out.println("You currently don't have a Room Assignment.");
         }
     }
 
-    public void changeRoomRequest()
-    {
+    public void changeRoomRequest() {
         Optional<RoomAssignment> roomAssignmentOfPerson = fetchRoomAssignment();
-        roomAssignmentOfPerson.ifPresentOrElse(roomAssignment ->
-        {
+        roomAssignmentOfPerson.ifPresentOrElse(roomAssignment -> {
             RoomRequest roomRequest = new RoomRequest(LocalDate.now(), roomAssignment, RequestType.CHANGE);
             roomRequestService.save(roomRequest);
         }, () -> System.out.println("You currently don't have a Room Assignment."));
     }
 
-    private Optional<RoomAssignment> fetchRoomAssignment()
-    {
+    private Optional<RoomAssignment> fetchRoomAssignment() {
         return roomAssignmentService.findAll()
                 .stream()
-                .filter(roomAssignment-> roomAssignment.getValue().getPerson().equals(currentLoggedInPerson))
+                .filter(roomAssignment -> roomAssignment.getValue().getPerson().equals(currentLoggedInPerson))
                 .map(Map.Entry::getValue)
                 .findFirst();
     }
 
-    private Severity getIssueSeverity(int severity)
-    {
-        switch(severity)
-        {
+    private Severity getIssueSeverity(int severity) {
+        switch (severity) {
             case 1:
                 return Severity.ONE;
             case 2:
