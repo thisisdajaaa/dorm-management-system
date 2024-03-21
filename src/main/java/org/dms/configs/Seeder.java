@@ -72,6 +72,9 @@ public class Seeder {
     private void seedRooms() {
         roomService.addRoom(101);
         roomService.addRoom(102);
+        roomService.addRoom(103);
+        roomService.addRoom(104);
+        roomService.addRoom(105);
     }
 
     public void seedUsers() {
