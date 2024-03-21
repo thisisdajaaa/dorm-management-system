@@ -1,11 +1,13 @@
 package org.dms.views.admin;
 
 import org.dms.configs.Injector;
+import org.dms.constants.RequestType;
 import org.dms.constants.Role;
 import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
+import org.dms.models.RoomRequest;
 import org.dms.services.spec.IAuthenticationService;
 import org.dms.views.Main;
 import org.dms.services.spec.IRoomAssignmentService;
@@ -13,7 +15,6 @@ import org.dms.services.spec.IRoomRequestService;
 import org.dms.services.spec.IRoomService;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
@@ -38,37 +39,33 @@ public class RoomManagementScreen {
 
         while (running) {
             System.out.println("Room Management:");
-            System.out.println("1. Room status");
-            System.out.println("2. Assigned room to a new student");
-            System.out.println("3. Room assignment status");
-            System.out.println("4. Room Request status");
-            System.out.println("5. Change room to a student");
-            System.out.println("6. Leave room request");
-            System.out.println("7. Logout");
+            System.out.println("1. Check Room Status");
+            System.out.println("2. Make Room Assignment");
+            System.out.println("3. Check Room Assignments");
+            System.out.println("4. Check Room Requests");
+            System.out.println("5. Acknowledge Room Requests");
+            System.out.println("6. Logout");
 
             int option = scanner.nextInt();
             scanner.nextLine();
 
             switch (option) {
                 case 1:
-                    running = false;
+                    checkRoomStatus();
                     break;
                 case 2:
-                    running = false;
+                    makeRoomAssignment();
                     break;
                 case 3:
-                    showRoomAssignments();
+                    checkRoomAssignments();
                     break;
                 case 4:
-                    showRequestStatus();
+                    checkRoomRequest();
                     break;
                 case 5:
-                    changeRoom();
+                    acknowledgeRoomRequests();
                     break;
                 case 6:
-                    leaveRoom();
-                    break;
-                case 7:
                     System.out.println("Logging out...");
                     authenticationService.logout();
                     running = false;
@@ -82,20 +79,41 @@ public class RoomManagementScreen {
         }
     }
 
-    private void leaveRoom() {
+    private void acknowledgeRoomRequests() {
+        if(roomRequestService.findAll().isEmpty()) {
+            System.out.println("--------- NO ROOM REQUEST!!! --------");
+            return;
+        }
+        roomRequestService.findAll()
+                .stream().map(Map.Entry::getValue)
+                .forEach(roomRequest ->  {
+                           if(roomRequest.getRequestType() == RequestType.CHANGE) {
+                               changeRoom(roomRequest);
+                           } else {
+                               leaveRoom(roomRequest);
+                           }
+                    roomRequest.setResolved(true);
+                });
     }
 
-    private void changeRoom() {
-        Optional<Room> availableRoom = findAvailableRoom();
+
+
+    private void leaveRoom(RoomRequest roomRequest) {
+        roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
+    }
+
+    private void changeRoom(RoomRequest roomRequest) {
+        Optional<Room> availableRoom = roomService.checkInRoom();
         if(availableRoom.isEmpty()) {
-            System.out.println("--------- NO EMPTY ROOM!!! --------");
+            System.out.println("--------- NO AVAILABLE ROOM!!! --------");
             return;
         }
 
-
+        Room room = availableRoom.get();
+        roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
     }
 
-    private void showRequestStatus() {
+    private void checkRoomRequest() {
         Optional.ofNullable(roomRequestService.findAll().stream()
                 .map(Map.Entry::getValue)).ifPresentOrElse(
                         roomRequests -> roomRequests.forEach(System.out::println),
@@ -103,9 +121,8 @@ public class RoomManagementScreen {
         );
     }
 
-    private void makeNewRoomAssignment() {
+    private void makeRoomAssignment() {
         System.out.println("INITIATING A NEW ROOM ASSIGNMENT TO A STUDENT...");
-
         System.out.println("Please enter your name: ");
         String name = scanner.nextLine();
         System.out.println("Please enter your email: ");
@@ -115,37 +132,28 @@ public class RoomManagementScreen {
         System.out.println("Please enter your password: ");
         String password = scanner.nextLine();
 
-        Optional<Room> availableRoom = findAvailableRoom();
-        if(availableRoom.isEmpty()) {
-            System.out.println("--------- NO EMPTY ROOM!!! --------");
-            return;
-        }
-        Room room = availableRoom.get();
-        room.setStatus(RoomStatus.OCCUPIED);
-        Person student = new Person(name,email,contactNumber,password, Role.STUDENT);
-        RoomAssignment roomAssignment = new RoomAssignment(LocalDate.now(),
-                LocalDate.now().plusYears(1), student, room);
-        roomAssignmentService.addToRepository(roomAssignment);
+        Optional<Room> availableRoom = roomService.checkInRoom();
+        availableRoom.ifPresentOrElse(
+                room -> {
+                    room.setStatus(RoomStatus.OCCUPIED);
+                    Person student = new Person(name,email,contactNumber,password, Role.STUDENT);
+                    roomAssignmentService.addToRepository(new RoomAssignment(LocalDate.now(),
+                            LocalDate.now().plusYears(1), student, room));
+                },
+                () -> System.out.println("--------- NO EMPTY ROOM!!! --------")
+        );
     }
-    private void showRoomAssignments() {
+    private void checkRoomAssignments() {
         roomAssignmentService.findAll()
                 .stream()
                 .map(Map.Entry::getValue)
                 .forEach(System.out::println);
     }
-    private void showRooms() {
+    private void checkRoomStatus() {
         roomService.findAll()
                 .stream()
                 .map(Map.Entry::getValue)
                 .forEach(System.out::println);
-    }
-
-    private Optional<Room> findAvailableRoom() {
-        Optional<Room> roomOption = roomService.checkInRoom();
-        if(roomOption.isEmpty()) {
-            Optional.empty();
-        }
-        return roomOption;
     }
 }
 
