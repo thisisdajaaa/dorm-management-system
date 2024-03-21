@@ -76,10 +76,9 @@ public class RoomScreen {
                         default:
                             System.out.println("Invalid option provided. Please choose another option.");
                             break;
+                    }
                 }
             }
-        }
-
         public void createIssueReport() {
             System.out.println("Please describe the issue: ");
             String description = scanner.nextLine();
@@ -143,4 +142,4 @@ public class RoomScreen {
                     return Severity.ONE;
             }
         }
-}
+    }
