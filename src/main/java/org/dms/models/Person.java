@@ -4,6 +4,8 @@ import org.dms.annotations.AutoIncrement;
 import org.dms.constants.Role;
 import org.dms.utils.ModelUtil;
 
+import java.util.Objects;
+
 public class Person {
     @AutoIncrement
     private Integer id;
@@ -82,11 +84,25 @@ public class Person {
     @Override
     public String toString() {
         return STR."""
+                Id: \{id}
                 Name: \{name}
                 Email: \{email}
                 Contact Number: \{contactNumber}
                 Role: \{role}
                 IS_LOGGED_IN: \{isLoggedIn}
                 """;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name) && Objects.equals(email, person.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email);
     }
 }
