@@ -6,6 +6,7 @@ import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
+import org.dms.models.RoomRequest;
 import org.dms.services.spec.IAuthenticationService;
 import org.dms.services.spec.IRoomAssignmentService;
 import org.dms.services.spec.IRoomRequestService;
@@ -40,7 +41,7 @@ public class RoomManagementScreen {
             System.out.println("1. Room status");
             System.out.println("2. Assigned room to a new student");
             System.out.println("3. Room assignment status");
-            System.out.println("4. Request status");
+            System.out.println("4. Room Request status");
             System.out.println("5. Change room to a student");
             System.out.println("6. Leave room request");
             System.out.println("7. Logout");
@@ -62,8 +63,10 @@ public class RoomManagementScreen {
                     showRequestStatus();
                     break;
                 case 5:
+                    changeRoom();
                     break;
                 case 6:
+                    leaveRoom();
                     break;
                 case 7:
                     System.out.println("Logging out...");
@@ -77,10 +80,25 @@ public class RoomManagementScreen {
         }
     }
 
+    private void leaveRoom() {
+    }
+
+    private void changeRoom() {
+        Optional<Room> availableRoom = findAvailableRoom();
+        if(availableRoom.isEmpty()) {
+            System.out.println("--------- NO EMPTY ROOM!!! --------");
+            return;
+        }
+
+
+    }
+
     private void showRequestStatus() {
-        roomRequestService.findAll().stream()
-                .map(Map.Entry::getValue)
-                .forEach(System.out::println);
+        Optional.ofNullable(roomRequestService.findAll().stream()
+                .map(Map.Entry::getValue)).ifPresentOrElse(
+                        roomRequests -> roomRequests.forEach(System.out::println),
+                ()-> System.out.println("--------- NO ROOM REQUEST!!! --------")
+        );
     }
 
     private void makeNewRoomAssignment() {
