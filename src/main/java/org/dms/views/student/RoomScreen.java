@@ -27,16 +27,14 @@ public class RoomScreen {
     private Person currentLoggedInPerson;
 
     public RoomScreen(Scanner scanner) {
-        this.scanner = scanner;
         this.authenticationService = Injector.getService(IAuthenticationService.class);
+        this.scanner = scanner;
         this.roomAssignmentService = Injector.getService(IRoomAssignmentService.class);
         this.issueReportService = Injector.getService(IIssueReportService.class);
         this.roomRequestService = Injector.getService(IRoomRequestService.class);
     }
-        public void showRoomScreenOptions()
-    {
+        public void showRoomScreenOptions() {
             boolean running = true;
-
             System.out.println("Please select an option:");
             while (running) {
                 System.out.println("Room Management:");
@@ -77,9 +75,9 @@ public class RoomScreen {
                         default:
                             System.out.println("Invalid option provided. Please choose another option.");
                             break;
+                    }
                 }
             }
-        }
 
         public void createIssueReport() {
             System.out.println("Please describe the issue: ");
