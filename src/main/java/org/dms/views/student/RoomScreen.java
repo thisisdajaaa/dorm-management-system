@@ -60,7 +60,7 @@ public class RoomScreen {
                     changeRoomRequest();
                     break;
                 case 3:
-                    // leaveRoomRequest();
+                    leaveRoomRequest();
                     break;
                 case 4:
                     System.out.println("Logging out...");
@@ -88,6 +88,7 @@ public class RoomScreen {
             IssueReport issueReport = new IssueReport(description, LocalDate.now(), severity,
                     roomAssignmentOfPerson.get());
             issueReportService.save(issueReport);
+            System.out.println("Successfully reported room issue");
         } else {
             System.out.println("You currently don't have a Room Assignment.");
         }
@@ -98,6 +99,7 @@ public class RoomScreen {
         roomAssignmentOfPerson.ifPresentOrElse(roomAssignment -> {
             RoomRequest roomRequest = new RoomRequest(LocalDate.now(), roomAssignment, RequestType.CHANGE);
             roomRequestService.save(roomRequest);
+            System.out.println("Successfully submitted Change Room request.");
         }, () -> System.out.println("You currently don't have a Room Assignment."));
     }
 
@@ -108,9 +110,20 @@ public class RoomScreen {
                 .map(Map.Entry::getValue)
                 .findFirst();
     }
-
-    private Severity getIssueSeverity(int severity) {
-        switch (severity) {
+    public void leaveRoomRequest()
+    {
+        Optional<RoomAssignment> roomAssignmentOfPerson = fetchRoomAssignment();
+        roomAssignmentOfPerson.ifPresentOrElse(roomAssignment ->
+        {
+            RoomRequest roomRequest = new RoomRequest(LocalDate.now(), roomAssignment, RequestType.LEAVE);
+            roomRequestService.save(roomRequest);
+            System.out.println("Successfully submitted Leave Room request.");
+        }, () -> System.out.println("You currently don't have a Room Assignment."));
+    }
+    private Severity getIssueSeverity(int severity)
+    {
+        switch(severity)
+        {
             case 1:
                 return Severity.ONE;
             case 2:
