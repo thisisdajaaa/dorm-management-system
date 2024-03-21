@@ -8,11 +8,8 @@ import org.dms.models.Person;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
 import org.dms.models.RoomRequest;
-import org.dms.services.spec.IAuthenticationService;
+import org.dms.services.spec.*;
 import org.dms.views.Main;
-import org.dms.services.spec.IRoomAssignmentService;
-import org.dms.services.spec.IRoomRequestService;
-import org.dms.services.spec.IRoomService;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -24,6 +21,7 @@ public class RoomManagementScreen {
     private final IAuthenticationService authenticationService;
     private final IRoomAssignmentService roomAssignmentService;
     private final IRoomRequestService roomRequestService;
+    private final IPersonService personService;
     private final IRoomService roomService;
 
     public RoomManagementScreen(Scanner scanner) {
@@ -31,6 +29,7 @@ public class RoomManagementScreen {
         this.roomRequestService = Injector.getService(IRoomRequestService.class);
         this.roomAssignmentService = Injector.getService(IRoomAssignmentService.class);
         this.roomService = Injector.getService(IRoomService.class);
+        this.personService = Injector.getService(IPersonService.class);
         this.scanner = scanner;
     }
 
@@ -40,11 +39,12 @@ public class RoomManagementScreen {
         while (running) {
             System.out.println("Room Management:");
             System.out.println("1. Check Room Status");
-            System.out.println("2. Make Room Assignment");
+            System.out.println("2. Check Student Detials");
             System.out.println("3. Check Room Assignments");
-            System.out.println("4. Check Room Requests");
-            System.out.println("5. Acknowledge Room Requests");
-            System.out.println("6. Logout");
+            System.out.println("4. Make Room Assignment");
+            System.out.println("5. Check Room Requests");
+            System.out.println("6. Acknowledge Room Requests");
+            System.out.println("7. Logout");
 
             int option = scanner.nextInt();
             scanner.nextLine();
@@ -54,18 +54,21 @@ public class RoomManagementScreen {
                     checkRoomStatus();
                     break;
                 case 2:
-                    makeRoomAssignment();
+                    checkStudentDetails();
                     break;
                 case 3:
                     checkRoomAssignments();
                     break;
                 case 4:
-                    checkRoomRequest();
+                    makeRoomAssignment();
                     break;
                 case 5:
-                    acknowledgeRoomRequests();
+                    checkRoomRequest();
                     break;
                 case 6:
+                    acknowledgeRoomRequests();
+                    break;
+                case 7:
                     System.out.println("Logging out...");
                     authenticationService.logout();
                     running = false;
@@ -77,6 +80,13 @@ public class RoomManagementScreen {
                     break;
             }
         }
+    }
+
+    private void checkStudentDetails() {
+        personService.findAll()
+                .stream()
+                .map(Map.Entry::getValue)
+                .forEach(System.out::println);
     }
 
     private void acknowledgeRoomRequests() {
@@ -96,21 +106,21 @@ public class RoomManagementScreen {
                 });
     }
 
-
-
     private void leaveRoom(RoomRequest roomRequest) {
         roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
+        roomAssignmentService.removeFromRepository(roomRequest.getRoomAssignment());
+
     }
 
     private void changeRoom(RoomRequest roomRequest) {
         Optional<Room> availableRoom = roomService.checkInRoom();
-        if(availableRoom.isEmpty()) {
-            System.out.println("--------- NO AVAILABLE ROOM!!! --------");
-            return;
-        }
-
-        Room room = availableRoom.get();
-        roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
+        roomService.checkInRoom().ifPresentOrElse(
+                room -> {
+                    roomAssignmentService.removeFromRepository(roomRequest.getRoomAssignment());
+                    roomRequestService.acknowledgeRoomRequest(roomRequest.getId());
+                },
+                () -> System.out.println("--------- NO AVAILABLE ROOM!!! --------")
+        );
     }
 
     private void checkRoomRequest() {
@@ -122,21 +132,13 @@ public class RoomManagementScreen {
     }
 
     private void makeRoomAssignment() {
-        System.out.println("INITIATING A NEW ROOM ASSIGNMENT TO A STUDENT...");
-        System.out.println("Please enter your name: ");
-        String name = scanner.nextLine();
-        System.out.println("Please enter your email: ");
-        String email = scanner.nextLine();
-        System.out.println("Please enter your contact Number: ");
-        String contactNumber = scanner.nextLine();
-        System.out.println("Please enter your password: ");
-        String password = scanner.nextLine();
-
+        System.out.println("Please enter student id");
+        int studentId = scanner.nextInt();
+        Person student = personService.findById(studentId);
         Optional<Room> availableRoom = roomService.checkInRoom();
         availableRoom.ifPresentOrElse(
                 room -> {
                     room.setStatus(RoomStatus.OCCUPIED);
-                    Person student = new Person(name,email,contactNumber,password, Role.STUDENT);
                     roomAssignmentService.addToRepository(new RoomAssignment(LocalDate.now(),
                             LocalDate.now().plusYears(1), student, room));
                 },
