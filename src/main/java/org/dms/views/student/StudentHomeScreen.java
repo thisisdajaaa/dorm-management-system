@@ -33,7 +33,7 @@ public class StudentHomeScreen {
                     running = false;
                     break;
                 case 2:
-                    new RoomScreen(scanner).showOptions();
+                    new RoomScreen(scanner).showRoomScreenOptions();
                     running = false;
                     break;
                 case 3:
