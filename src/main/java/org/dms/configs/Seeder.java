@@ -2,11 +2,14 @@ package org.dms.configs;
 
 import org.dms.annotations.Autowired;
 import org.dms.annotations.Component;
+import org.dms.constants.RequestType;
 import org.dms.constants.Role;
 import org.dms.constants.RoomStatus;
 import org.dms.models.Person;
+import org.dms.constants.Role;
 import org.dms.models.Room;
 import org.dms.models.RoomAssignment;
+import org.dms.models.RoomRequest;
 import org.dms.services.spec.*;
 
 import java.time.LocalDate;
@@ -31,11 +34,11 @@ public class Seeder {
     private final static String DEFAULT_PASSWORD = "test12345";
 
     public void run() {
-        seedUsers();
-        seedKeys();
-        seedRooms();
-        seedRoomAssignment();
-
+            seedUsers();
+            seedKeys();
+            seedRooms();
+            seedRoomAssignment();
+            seedRoomRequest();
     }
 
     private void seedRoomAssignment() {
@@ -72,6 +75,9 @@ public class Seeder {
     private void seedRooms() {
         roomService.addRoom(101);
         roomService.addRoom(102);
+        roomService.addRoom(103);
+        roomService.addRoom(104);
+        roomService.addRoom(105);
     }
 
     public void seedUsers() {
@@ -82,6 +88,10 @@ public class Seeder {
         personService.addPerson("Marc", "student1@example.com", "123123166", DEFAULT_PASSWORD, Role.STUDENT);
     }
 
+    private void seedRoomRequest() {
+        Optional<RoomAssignment> first = roomAssignmentService.findAll().stream().map(Map.Entry::getValue).findAny();
+        roomRequestService.save(new RoomRequest(LocalDate.now(),first.get(), RequestType.CHANGE));
+    }
     public void seedKeys() {
         keyService.addKey();
         keyService.addKey();

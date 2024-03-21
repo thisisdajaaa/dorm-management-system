@@ -28,6 +28,6 @@ public class Room {
         return STR. """
            Room Number : \{ roomNumber }
            Room Status : \{ status }
-           """ ;
+           ---------------""" ;
     }
 }

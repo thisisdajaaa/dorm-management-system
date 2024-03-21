@@ -43,6 +43,6 @@ public class RoomAssignment {
                 End Date : \{endDate}
                 Room: \{room.getRoomNumber()}
                 Name: \{this.person.getName()}
-                """;
+                ---------------""";
     }
 }

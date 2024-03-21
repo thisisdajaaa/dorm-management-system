@@ -46,7 +46,8 @@ public class RoomRequest {
         return STR."""
                 Change Request Date: \{requestDate}
                 Has this request been resolved: \{isResolved}
-                """;
+                Request made by student: \{roomAssignment.getPerson().getName()}
+                -----------------""";
     }
 
     public RoomAssignment getRoomAssignment() {
