@@ -22,32 +22,30 @@ public class Main {
         System.out.println("Welcome to the Dorm Management System by DOM!");
 
         while (true) {
+            System.out.println("\nSelect an option:");
+            System.out.println("1. Login");
+            System.out.println("2. Register");
+            System.out.println("3. Exit");
 
-                System.out.println("\nSelect an option:");
-                System.out.println("1. Login");
-                System.out.println("2. Register");
-                System.out.println("3. Exit");
+            int option = scanner.nextInt();
+            scanner.nextLine();
 
-                int option = scanner.nextInt();
-                scanner.nextLine();
-
-                if (option == 1) {
-                    if (isLoginAttemptSuccessful()) {
-                        System.out.println("Login successful. Welcome!");
-                        showAuthenticatedOptions();
-                        break;
-                    } else {
-                        System.out.println("Login failed. Please check your credentials and try again.");
-                    }
-                } else if (option == 2) {
-                    attemptRegister();
-                } else if (option == 3) {
-                    System.out.println("Exiting...");
+            if (option == 1) {
+                if (isLoginAttemptSuccessful()) {
+                    System.out.println("Login successful. Welcome!");
+                    showAuthenticatedOptions();
                     break;
                 } else {
-                    System.out.println("Invalid option provided. Please choose another option.");
+                    System.out.println("Login failed. Please check your credentials and try again.");
                 }
-
+            } else if (option == 2) {
+                attemptRegister();
+            } else if (option == 3) {
+                System.out.println("Exiting...");
+                break;
+            } else {
+                System.out.println("Invalid option provided. Please choose another option.");
+            }
         }
     }
 

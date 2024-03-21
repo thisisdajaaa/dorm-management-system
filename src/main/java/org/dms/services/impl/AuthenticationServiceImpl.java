@@ -37,7 +37,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     public void logout() {
         if (!hasLoggedInUsersAlready()) throw new AuthenticationException.NotAllowedException("No users is logged in!");
 
-        Person person = getCurrentLoggedInUser().orElseThrow(() -> new AuthenticationException.NotAllowedException("No user is logged in!"));;
+        Person person = getCurrentLoggedInUser().orElseThrow(() -> new AuthenticationException.NotAllowedException("No user is logged in!"));
+        ;
         person.setLoggedIn(false);
     }
 
